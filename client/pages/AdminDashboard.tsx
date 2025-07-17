@@ -130,10 +130,16 @@ export default function AdminDashboard() {
   };
 
   const handleUpdateProject = () => {
-    console.log("Updating project:", editingProject);
-    // Add API call to update project
-    setShowEditProjectDialog(false);
-    setEditingProject(null);
+    if (editingProject && editingProject.id) {
+      updateProject(editingProject.id, {
+        name: editingProject.name,
+        status: editingProject.status,
+        progress: editingProject.progress,
+        endDate: editingProject.endDate,
+      });
+      setShowEditProjectDialog(false);
+      setEditingProject(null);
+    }
   };
 
   // Projects now come from data context
