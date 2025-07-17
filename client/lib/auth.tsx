@@ -83,29 +83,12 @@ export const useAuth = () => {
   return context;
 };
 
-// Mock data for demo purposes
-const mockUsers: User[] = [
-  { id: "1", username: "admin", role: "admin", name: "John Admin" },
-  {
-    id: "2",
-    username: "member1",
-    role: "member",
-    name: "Mike Worker",
-    assignedProjects: ["1"],
-  },
-  {
-    id: "3",
-    username: "client1",
-    role: "client",
-    name: "Sarah Client",
-    assignedProjects: ["1"],
-  },
-];
-
-const mockCredentials = {
-  admin: { username: "admin", password: "admin123" },
-  member: { username: "member1", password: "member123" },
-  client: { username: "client1", password: "client123" },
+// Initial admin user - will be created automatically
+const initialAdminUser: User = {
+  id: "admin",
+  username: "admin",
+  role: "admin",
+  name: "Administrator",
 };
 
 interface AuthProviderProps {
