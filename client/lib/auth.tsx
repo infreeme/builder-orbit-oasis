@@ -110,9 +110,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       (u) => u.username === username && u.role === role,
     );
 
-    if (userData) {
-      // For demo purposes, accept any password for existing users
-      // In production, implement proper password verification
+    if (userData && userData.password === password) {
       setUser(userData);
       return true;
     }
