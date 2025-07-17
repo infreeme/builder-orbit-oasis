@@ -61,11 +61,6 @@ export default function AdminDashboard() {
     setShowNewProjectDialog(true);
   };
 
-  const handleManageUsers = () => {
-    setNewUserData({ name: "", username: "", role: "member" });
-    setShowManageUsersDialog(true);
-  };
-
   const handleSettings = () => {
     setShowSettingsDialog(true);
   };
