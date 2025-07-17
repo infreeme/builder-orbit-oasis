@@ -233,10 +233,12 @@ export default function AdminDashboard() {
 
                   <div className="flex items-center justify-between">
                     <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        <BarChart3 className="w-4 h-4 mr-2" />
-                        View Timeline
-                      </Button>
+                      <Link to="/timeline/1">
+                        <Button size="sm" variant="outline">
+                          <BarChart3 className="w-4 h-4 mr-2" />
+                          View Timeline
+                        </Button>
+                      </Link>
                       <Button size="sm" variant="ghost">
                         Edit
                       </Button>
