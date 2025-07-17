@@ -34,6 +34,14 @@ interface GanttTask {
     completed: boolean;
   }[];
   mediaCount: number;
+  media?: {
+    id: string;
+    name: string;
+    url: string;
+    type: "image" | "video";
+    uploadedBy: string;
+    uploadedAt: string;
+  }[];
 }
 
 interface GanttPhase {
@@ -220,7 +228,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                     <div key={task.id} className="flex">
                       {/* Task info */}
                       <div className="w-80 p-3 border-r">
-                        <div className="space-y-1">
+                        <div className="space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium">
                               {task.name}
@@ -249,6 +257,56 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                               </div>
                             )}
                           </div>
+                          {/* Media thumbnails */}
+                          {task.media && task.media.length > 0 && (
+                            <div className="flex gap-1 flex-wrap">
+                              {task.media.slice(0, 3).map((mediaFile) => (
+                                <div
+                                  key={mediaFile.id}
+                                  className="w-8 h-8 rounded border overflow-hidden bg-muted flex-shrink-0"
+                                  title={`${mediaFile.name} by ${mediaFile.uploadedBy}`}
+                                >
+                                  {mediaFile.type === "image" ? (
+                                    <img
+                                      src={mediaFile.url}
+                                      alt={mediaFile.name}
+                                      className="w-full h-full object-cover"
+                                      onError={(e) => {
+                                        const target =
+                                          e.target as HTMLImageElement;
+                                        target.style.display = "none";
+                                        const parent = target.parentElement;
+                                        if (parent) {
+                                          parent.innerHTML = `
+                                            <div class="w-full h-full flex items-center justify-center bg-muted">
+                                              <svg class="w-4 h-4 text-muted-foreground" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                                              </svg>
+                                            </div>
+                                          `;
+                                        }
+                                      }}
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-muted">
+                                      <svg
+                                        className="w-4 h-4 text-muted-foreground"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path d="M2 6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8a1 1 0 00.553.894l2 1A1 1 0 0018 9V7a1 1 0 00-1.447-.894l-2 1z" />
+                                      </svg>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                              {task.media.length > 3 && (
+                                <div className="w-8 h-8 rounded border bg-muted flex items-center justify-center text-xs text-muted-foreground">
+                                  +{task.media.length - 3}
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
 
