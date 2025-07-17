@@ -288,10 +288,15 @@ export default function MemberDashboard() {
                   <CheckCircle className="w-8 h-8 text-success" />
                   <span>Update Progress</span>
                 </Button>
-                <Button variant="outline" className="h-auto p-6 flex-col gap-3">
-                  <Calendar className="w-8 h-8 text-primary" />
-                  <span>View Timeline</span>
-                </Button>
+                <Link to="/timeline/1">
+                  <Button
+                    variant="outline"
+                    className="h-auto p-6 flex-col gap-3"
+                  >
+                    <Calendar className="w-8 h-8 text-primary" />
+                    <span>View Timeline</span>
+                  </Button>
+                </Link>
                 <Button variant="outline" className="h-auto p-6 flex-col gap-3">
                   <Clock className="w-8 h-8 text-warning" />
                   <span>Time Tracking</span>
