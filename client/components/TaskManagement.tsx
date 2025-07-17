@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Users, Calendar } from "lucide-react";
+import { Plus, Users, Calendar, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -15,8 +15,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useData } from "@/lib/data-context";
 
 export const TaskManagement: React.FC = () => {
-  const { tasks, addTask, projects, users } = useData();
+  const { tasks, addTask, updateTask, deleteTask, projects, users } = useData();
   const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
+  const [showEditTaskDialog, setShowEditTaskDialog] = useState(false);
+  const [editingTask, setEditingTask] = useState<any>(null);
   const [newTaskData, setNewTaskData] = useState({
     name: "",
     project: "",
@@ -24,6 +26,17 @@ export const TaskManagement: React.FC = () => {
     trade: "",
     priority: "medium" as "high" | "medium" | "low",
     assignedTo: "",
+  });
+
+  const [editTaskData, setEditTaskData] = useState({
+    name: "",
+    project: "",
+    dueDate: "",
+    trade: "",
+    priority: "medium" as "high" | "medium" | "low",
+    assignedTo: "",
+    status: "planned" as "planned" | "in-progress" | "delayed" | "completed",
+    progress: 0,
   });
 
   const handleCreateTask = () => {
