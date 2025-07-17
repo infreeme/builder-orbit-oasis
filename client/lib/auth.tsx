@@ -132,3 +132,8 @@ const AuthProviderInner: React.FC<AuthProviderProps> = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+// Wrapper that ensures DataProvider is available
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  return <AuthProviderInner>{children}</AuthProviderInner>;
+};
