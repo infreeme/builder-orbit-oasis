@@ -139,6 +139,10 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     setUsers((prev) => prev.filter((user) => user.id !== id));
   };
 
+  const getUserByUsername = (username: string) => {
+    return users.find((user) => user.username === username);
+  };
+
   // Task functions
   const addTask = (taskData: Omit<Task, "id" | "media">) => {
     const newTask: Task = {
