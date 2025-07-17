@@ -25,9 +25,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { useAuth } from "@/lib/auth";
+import { useData } from "@/lib/data-context";
 
 export default function MemberDashboard() {
   const { user, logout } = useAuth();
+  const { tasks, updateTask, addMedia } = useData();
   const navigate = useNavigate();
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showProgressDialog, setShowProgressDialog] = useState(false);
@@ -114,54 +116,22 @@ export default function MemberDashboard() {
     setTimeTrackingData({ startTime: "", endTime: "", description: "" });
   };
 
-  // Mock assigned tasks
-  const assignedTasks = [
-    {
-      id: "1",
-      name: "Foundation Excavation",
-      project: "Downtown Office Complex",
-      progress: 85,
-      status: "in-progress" as const,
-      dueDate: "2024-07-15",
-      trade: "Earthwork",
-      priority: "high" as const,
-    },
-    {
-      id: "2",
-      name: "Steel Frame Installation",
-      project: "Downtown Office Complex",
-      progress: 60,
-      status: "in-progress" as const,
-      dueDate: "2024-07-20",
-      trade: "Structural",
-      priority: "medium" as const,
-    },
-    {
-      id: "3",
-      name: "Electrical Rough-in",
-      project: "Residential Tower Phase 2",
-      progress: 30,
-      status: "planned" as const,
-      dueDate: "2024-08-01",
-      trade: "Electrical",
-      priority: "low" as const,
-    },
-  ];
+  // Filter tasks assigned to current user
+  const assignedTasks = tasks.filter(
+    (task) => task.assignedTo === user?.username,
+  );
 
-  const recentUploads = [
-    {
-      id: "1",
-      taskName: "Foundation Excavation",
-      fileName: "excavation_progress_001.jpg",
-      uploadedAt: "2024-07-10",
-    },
-    {
-      id: "2",
-      taskName: "Steel Frame Installation",
-      fileName: "frame_section_a.jpg",
-      uploadedAt: "2024-07-09",
-    },
-  ];
+  // Get recent uploads from tasks
+  const recentUploads = assignedTasks
+    .flatMap((task) =>
+      task.media.map((media) => ({
+        id: media.id,
+        taskName: task.name,
+        fileName: media.name,
+        uploadedAt: media.uploadedAt,
+      })),
+    )
+    .slice(0, 5);
 
   const getStatusColor = (status: string) => {
     switch (status) {
