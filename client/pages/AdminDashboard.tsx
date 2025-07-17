@@ -121,39 +121,7 @@ export default function AdminDashboard() {
     setEditingProject(null);
   };
 
-  // Mock project data
-  const projects = [
-    {
-      id: "1",
-      name: "Downtown Office Complex",
-      progress: 68,
-      status: "in-progress" as const,
-      endDate: "2024-08-15",
-      activeTasks: 12,
-      totalTasks: 18,
-      members: 6,
-    },
-    {
-      id: "2",
-      name: "Residential Tower Phase 2",
-      progress: 25,
-      status: "delayed" as const,
-      endDate: "2024-12-20",
-      activeTasks: 8,
-      totalTasks: 24,
-      members: 4,
-    },
-    {
-      id: "3",
-      name: "Shopping Center Renovation",
-      progress: 90,
-      status: "in-progress" as const,
-      endDate: "2024-06-30",
-      activeTasks: 2,
-      totalTasks: 15,
-      members: 3,
-    },
-  ];
+  // Projects now come from data context
 
   const stats = {
     totalProjects: projects.length,
