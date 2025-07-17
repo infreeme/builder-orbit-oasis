@@ -632,6 +632,105 @@ export default function AdminDashboard() {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Edit Project Dialog */}
+        <Dialog
+          open={showEditProjectDialog}
+          onOpenChange={setShowEditProjectDialog}
+        >
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Edit Project</DialogTitle>
+              <DialogDescription>
+                Update the details for {editingProject?.name}.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-project-name" className="text-right">
+                  Project Name
+                </Label>
+                <Input
+                  id="edit-project-name"
+                  placeholder="Enter project name"
+                  className="col-span-3"
+                  value={editingProject?.name || ""}
+                  onChange={(e) =>
+                    setEditingProject((prev) => ({
+                      ...prev,
+                      name: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-status" className="text-right">
+                  Status
+                </Label>
+                <select
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                  value={editingProject?.status || ""}
+                  onChange={(e) =>
+                    setEditingProject((prev) => ({
+                      ...prev,
+                      status: e.target.value,
+                    }))
+                  }
+                >
+                  <option value="planned">Planned</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="delayed">Delayed</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-progress" className="text-right">
+                  Progress %
+                </Label>
+                <Input
+                  id="edit-progress"
+                  type="number"
+                  min="0"
+                  max="100"
+                  className="col-span-3"
+                  value={editingProject?.progress || 0}
+                  onChange={(e) =>
+                    setEditingProject((prev) => ({
+                      ...prev,
+                      progress: parseInt(e.target.value) || 0,
+                    }))
+                  }
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="edit-end-date" className="text-right">
+                  End Date
+                </Label>
+                <Input
+                  id="edit-end-date"
+                  type="date"
+                  className="col-span-3"
+                  value={editingProject?.endDate || ""}
+                  onChange={(e) =>
+                    setEditingProject((prev) => ({
+                      ...prev,
+                      endDate: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowEditProjectDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleUpdateProject}>Update Project</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
