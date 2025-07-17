@@ -214,6 +214,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         media,
         addMedia,
         deleteMedia,
+        getUserByUsername,
       }}
     >
       {children}
