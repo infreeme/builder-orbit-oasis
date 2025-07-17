@@ -167,7 +167,7 @@ export default function ProjectTimeline() {
                 <div>
                   <h1 className="text-xl font-bold">Project Timeline</h1>
                   <p className="text-sm text-muted-foreground">
-                    {projectData.name}
+                    {currentProject?.name || "No project selected"}
                   </p>
                 </div>
               </div>
