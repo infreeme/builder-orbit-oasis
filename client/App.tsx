@@ -75,6 +75,16 @@ const AppRoutes: React.FC = () => {
         }
       />
 
+      {/* Timeline Route - accessible by all authenticated users */}
+      <Route
+        path="/timeline/:projectId?"
+        element={
+          <ProtectedRoute>
+            <ProjectTimeline />
+          </ProtectedRoute>
+        }
+      />
+
       {/* Catch-all route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
