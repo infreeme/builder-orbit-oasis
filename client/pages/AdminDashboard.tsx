@@ -246,10 +246,6 @@ export default function AdminDashboard() {
                 <Plus className="w-4 h-4 mr-2" />
                 New Project
               </Button>
-              <Button variant="outline" onClick={handleManageUsers}>
-                <Users className="w-4 h-4 mr-2" />
-                Manage Users
-              </Button>
             </div>
           </div>
 
