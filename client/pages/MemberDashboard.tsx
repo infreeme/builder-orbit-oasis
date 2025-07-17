@@ -102,17 +102,15 @@ export default function MemberDashboard() {
   };
 
   const handleSubmitProgress = () => {
-    console.log("Updating progress:", {
-      taskId: selectedTask,
-      progress: progressValue[0],
-      notes: progressNotes,
-    });
-    // Add API call to update progress
-    setShowProgressDialog(false);
-    // Reset form
-    setProgressNotes("");
-    setProgressValue([0]);
-    setSelectedTask(null);
+    if (selectedTask) {
+      updateTask(selectedTask, {
+        progress: progressValue[0],
+      });
+      setShowProgressDialog(false);
+      setProgressNotes("");
+      setProgressValue([0]);
+      setSelectedTask(null);
+    }
   };
 
   const handleSubmitTimeTracking = () => {
