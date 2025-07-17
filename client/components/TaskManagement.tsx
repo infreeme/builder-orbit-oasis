@@ -63,6 +63,49 @@ export const TaskManagement: React.FC = () => {
     }
   };
 
+  const handleEditTask = (task: any) => {
+    setEditingTask(task);
+    setEditTaskData({
+      name: task.name,
+      project: task.project,
+      dueDate: task.dueDate,
+      trade: task.trade,
+      priority: task.priority,
+      assignedTo: task.assignedTo || "",
+      status: task.status,
+      progress: task.progress,
+    });
+    setShowEditTaskDialog(true);
+  };
+
+  const handleUpdateTask = () => {
+    if (
+      editingTask &&
+      editTaskData.name &&
+      editTaskData.project &&
+      editTaskData.dueDate
+    ) {
+      updateTask(editingTask.id, {
+        name: editTaskData.name,
+        project: editTaskData.project,
+        dueDate: editTaskData.dueDate,
+        trade: editTaskData.trade || "General",
+        priority: editTaskData.priority,
+        assignedTo: editTaskData.assignedTo || undefined,
+        status: editTaskData.status,
+        progress: editTaskData.progress,
+      });
+      setShowEditTaskDialog(false);
+      setEditingTask(null);
+    }
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    if (confirm("Are you sure you want to delete this task?")) {
+      deleteTask(taskId);
+    }
+  };
+
   const memberUsers = users.filter((user) => user.role === "member");
 
   return (
