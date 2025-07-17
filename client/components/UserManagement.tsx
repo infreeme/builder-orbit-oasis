@@ -202,6 +202,11 @@ export const UserManagement: React.FC = () => {
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <span>@{user.username}</span>
                       <span>Password: {user.password.replace(/./g, "•")}</span>
+                      {user.role === "client" &&
+                        user.assignedProjects &&
+                        user.assignedProjects.length > 0 && (
+                          <span>Projects: {user.assignedProjects.length}</span>
+                        )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
