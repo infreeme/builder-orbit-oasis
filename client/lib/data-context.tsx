@@ -1,5 +1,15 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
+export interface Phase {
+  id: string;
+  name: string;
+  description?: string;
+  startDate: string;
+  endDate: string;
+  color: string;
+  order: number;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -11,6 +21,7 @@ export interface Project {
   activeTasks: number;
   totalTasks: number;
   members: number;
+  phases: Phase[];
 }
 
 export interface User {
@@ -33,6 +44,7 @@ export interface Task {
   priority: "high" | "medium" | "low";
   assignedTo?: string;
   media: MediaFile[];
+  phaseId?: string;
 }
 
 export interface MediaFile {
