@@ -884,6 +884,210 @@ export default function AdminDashboard() {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Analytics Dialog */}
+        <Dialog
+          open={showAnalyticsDialog}
+          onOpenChange={setShowAnalyticsDialog}
+        >
+          <DialogContent className="sm:max-w-[800px]">
+            <DialogHeader>
+              <DialogTitle>Project Analytics</DialogTitle>
+              <DialogDescription>
+                Comprehensive overview of all projects and performance metrics.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-6">
+              {/* Overall Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-primary">
+                        {stats.totalProjects}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Total Projects
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-success">
+                        {stats.activeProjects}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Active Projects
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-destructive">
+                        {stats.delayedProjects}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Delayed Projects
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-info">
+                        {stats.completedTasks}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Completed Tasks
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Project Performance */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Project Performance</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {projects.map((project) => {
+                      const overallProgress = project.progress;
+                      return (
+                        <div key={project.id} className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <span className="font-medium">
+                                {project.name}
+                              </span>
+                              <Badge className={getStatusColor(project.status)}>
+                                {project.status}
+                              </Badge>
+                            </div>
+                            <span className="text-sm font-medium">
+                              {overallProgress}%
+                            </span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div
+                              className="bg-primary rounded-full h-2 transition-all duration-300"
+                              style={{ width: `${overallProgress}%` }}
+                            />
+                          </div>
+                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                            <span>
+                              Start:{" "}
+                              {new Date(project.startDate).toLocaleDateString()}
+                            </span>
+                            <span>
+                              End:{" "}
+                              {new Date(project.endDate).toLocaleDateString()}
+                            </span>
+                            <span>Tasks: {project.totalTasks}</span>
+                            <span>Members: {project.members}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* System Overview */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>System Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-medium mb-3">User Distribution</h4>
+                      <div className="space-y-2">
+                        {["admin", "member", "client"].map((role) => {
+                          const count = users.filter(
+                            (u) => u.role === role,
+                          ).length;
+                          const percentage =
+                            users.length > 0 ? (count / users.length) * 100 : 0;
+                          return (
+                            <div
+                              key={role}
+                              className="flex items-center justify-between"
+                            >
+                              <span className="text-sm capitalize">
+                                {role}s
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <div className="w-16 bg-muted rounded-full h-2">
+                                  <div
+                                    className="bg-primary rounded-full h-2"
+                                    style={{ width: `${percentage}%` }}
+                                  />
+                                </div>
+                                <span className="text-sm">{count}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-3">
+                        Task Status Distribution
+                      </h4>
+                      <div className="space-y-2">
+                        {["planned", "in-progress", "completed", "delayed"].map(
+                          (status) => {
+                            const count = tasks.filter(
+                              (t) => t.status === status,
+                            ).length;
+                            const percentage =
+                              tasks.length > 0
+                                ? (count / tasks.length) * 100
+                                : 0;
+                            return (
+                              <div
+                                key={status}
+                                className="flex items-center justify-between"
+                              >
+                                <span className="text-sm capitalize">
+                                  {status.replace("-", " ")}
+                                </span>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-16 bg-muted rounded-full h-2">
+                                    <div
+                                      className="bg-primary rounded-full h-2"
+                                      style={{ width: `${percentage}%` }}
+                                    />
+                                  </div>
+                                  <span className="text-sm">{count}</span>
+                                </div>
+                              </div>
+                            );
+                          },
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="flex justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setShowAnalyticsDialog(false)}
+              >
+                Close
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
