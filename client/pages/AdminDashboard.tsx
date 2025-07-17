@@ -30,6 +30,7 @@ import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/data-context";
 import TaskManagement from "@/components/TaskManagement";
 import UserManagement from "@/components/UserManagement";
+import MediaGallery from "@/components/MediaGallery";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -432,6 +433,9 @@ export default function AdminDashboard() {
 
         {/* User Management Section */}
         <UserManagement />
+
+        {/* Media Gallery Section */}
+        <MediaGallery />
 
         {/* New Project Dialog */}
         <Dialog
