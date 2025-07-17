@@ -130,6 +130,69 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleChangePassword = () => {
+    setShowChangePasswordDialog(true);
+    setShowSettingsDialog(false);
+  };
+
+  const handleUpdatePassword = () => {
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      alert("New password and confirmation do not match!");
+      return;
+    }
+    if (passwordData.currentPassword !== "admin123") {
+      alert("Current password is incorrect!");
+      return;
+    }
+    if (passwordData.newPassword.length < 6) {
+      alert("New password must be at least 6 characters long!");
+      return;
+    }
+
+    // Update admin password (in a real app, this would be an API call)
+    console.log("Password updated successfully");
+    alert("Password updated successfully!");
+    setShowChangePasswordDialog(false);
+    setPasswordData({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
+  };
+
+  const handleDownloadAllMedia = () => {
+    // In a real app, this would download all media files
+    console.log("Downloading all media...");
+    alert(
+      "Media download started! This feature will be implemented with backend integration.",
+    );
+  };
+
+  const handleSiteBackup = () => {
+    // In a real app, this would create a site backup
+    console.log("Creating site backup...");
+    alert(
+      "Site backup started! This feature will be implemented with backend integration.",
+    );
+  };
+
+  const handleToggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    // In a real app, this would update the global theme
+    document.documentElement.classList.toggle("dark");
+  };
+
+  const handleToggleMaintenanceMode = () => {
+    setIsMaintenanceMode(!isMaintenanceMode);
+    if (!isMaintenanceMode) {
+      alert(
+        "Maintenance mode enabled. New users will see a maintenance message.",
+      );
+    } else {
+      alert("Maintenance mode disabled. Site is now accessible to all users.");
+    }
+  };
+
   // Projects now come from data context
 
   const stats = {
