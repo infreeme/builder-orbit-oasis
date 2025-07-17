@@ -23,205 +23,56 @@ export default function ProjectTimeline() {
   const { projects, tasks } = useData();
   const navigate = useNavigate();
 
-  // Get project data from context
-  const projectData = {
-    name: "Downtown Office Complex",
-    startDate: new Date("2024-03-01"),
-    endDate: new Date("2024-08-15"),
-    phases: [
-      {
-        id: "1",
-        name: "Site Preparation & Foundation",
-        color: "#8B5CF6",
-        collapsed: false,
-        tasks: [
-          {
-            id: "1-1",
-            name: "Site Survey & Permits",
-            startDate: new Date("2024-03-01"),
-            endDate: new Date("2024-03-15"),
-            progress: 100,
-            status: "completed" as const,
-            trade: "Survey",
-            assignedTo: "Survey Team A",
-            dependencies: [],
-            milestones: [
-              {
-                id: "m1",
-                name: "Survey Approval",
-                type: "approval" as const,
-                date: new Date("2024-03-10"),
-                completed: true,
-              },
-            ],
-            mediaCount: 5,
-          },
-          {
-            id: "1-2",
-            name: "Excavation & Earthwork",
-            startDate: new Date("2024-03-16"),
-            endDate: new Date("2024-04-05"),
-            progress: 100,
-            status: "completed" as const,
-            trade: "Earthwork",
-            assignedTo: "Excavation Crew",
-            dependencies: ["1-1"],
-            milestones: [
-              {
-                id: "m2",
-                name: "Excavation Inspection",
-                type: "inspection" as const,
-                date: new Date("2024-03-30"),
-                completed: true,
-              },
-            ],
-            mediaCount: 12,
-          },
-          {
-            id: "1-3",
-            name: "Foundation & Footings",
-            startDate: new Date("2024-04-06"),
-            endDate: new Date("2024-04-25"),
-            progress: 100,
-            status: "completed" as const,
-            trade: "Concrete",
-            assignedTo: "Concrete Team",
-            dependencies: ["1-2"],
-            milestones: [
-              {
-                id: "m3",
-                name: "Foundation Handover",
-                type: "handover" as const,
-                date: new Date("2024-04-25"),
-                completed: true,
-              },
-            ],
-            mediaCount: 8,
-          },
-        ],
-      },
-      {
-        id: "2",
-        name: "Structural Framework",
-        color: "#F59E0B",
-        collapsed: false,
-        tasks: [
-          {
-            id: "2-1",
-            name: "Steel Frame Installation",
-            startDate: new Date("2024-04-26"),
-            endDate: new Date("2024-06-15"),
-            progress: 85,
-            status: "in-progress" as const,
-            trade: "Structural Steel",
-            assignedTo: "Steel Crew A",
-            dependencies: ["1-3"],
-            milestones: [
-              {
-                id: "m4",
-                name: "Frame Inspection",
-                type: "inspection" as const,
-                date: new Date("2024-05-30"),
-                completed: false,
-              },
-            ],
-            mediaCount: 18,
-          },
-          {
-            id: "2-2",
-            name: "Concrete Floors & Deck",
-            startDate: new Date("2024-05-15"),
-            endDate: new Date("2024-06-30"),
-            progress: 60,
-            status: "in-progress" as const,
-            trade: "Concrete",
-            assignedTo: "Concrete Team",
-            dependencies: ["2-1"],
-            milestones: [],
-            mediaCount: 7,
-          },
-        ],
-      },
-      {
-        id: "3",
-        name: "Building Envelope",
-        color: "#10B981",
-        collapsed: false,
-        tasks: [
-          {
-            id: "3-1",
-            name: "Exterior Wall Systems",
-            startDate: new Date("2024-06-16"),
-            endDate: new Date("2024-07-31"),
-            progress: 30,
-            status: "in-progress" as const,
-            trade: "Envelope",
-            assignedTo: "Envelope Specialists",
-            dependencies: ["2-1"],
-            milestones: [
-              {
-                id: "m5",
-                name: "Waterproofing Test",
-                type: "inspection" as const,
-                date: new Date("2024-07-15"),
-                completed: false,
-              },
-            ],
-            mediaCount: 3,
-          },
-          {
-            id: "3-2",
-            name: "Windows & Glazing",
-            startDate: new Date("2024-07-01"),
-            endDate: new Date("2024-08-15"),
-            progress: 10,
-            status: "planned" as const,
-            trade: "Glazing",
-            assignedTo: "Glazing Team",
-            dependencies: ["3-1"],
-            milestones: [],
-            mediaCount: 0,
-          },
-        ],
-      },
-      {
-        id: "4",
-        name: "MEP Systems",
-        color: "#EF4444",
-        collapsed: true,
-        tasks: [
-          {
-            id: "4-1",
-            name: "Electrical Rough-in",
-            startDate: new Date("2024-05-01"),
-            endDate: new Date("2024-07-15"),
-            progress: 45,
-            status: "in-progress" as const,
-            trade: "Electrical",
-            assignedTo: "Electrical Team",
-            dependencies: ["2-1"],
-            milestones: [],
-            mediaCount: 2,
-          },
-          {
-            id: "4-2",
-            name: "Plumbing Installation",
-            startDate: new Date("2024-05-15"),
-            endDate: new Date("2024-07-30"),
-            progress: 35,
-            status: "in-progress" as const,
-            trade: "Plumbing",
-            assignedTo: "Plumbing Crew",
-            dependencies: ["2-1"],
-            milestones: [],
-            mediaCount: 1,
-          },
-        ],
-      },
-    ],
+  // Get project data from context - use first project or null if none exist
+  const currentProject = projects.length > 0 ? projects[0] : null;
+
+  // Create phases from real tasks data grouped by trade
+  const createPhasesFromTasks = () => {
+    if (!currentProject || tasks.length === 0) return [];
+
+    // Group tasks by trade to create phases
+    const tasksByTrade = tasks
+      .filter((task) => task.project === currentProject.name)
+      .reduce((acc: any, task) => {
+        const trade = task.trade || "General";
+        if (!acc[trade]) {
+          acc[trade] = [];
+        }
+        acc[trade].push({
+          ...task,
+          startDate: new Date(task.dueDate),
+          endDate: new Date(task.dueDate),
+          mediaCount: task.media?.length || 0,
+          milestones: [], // Can be expanded later
+          dependencies: [],
+        });
+        return acc;
+      }, {});
+
+    // Convert to phases format
+    const tradeColors = [
+      "#8B5CF6",
+      "#F59E0B",
+      "#10B981",
+      "#EF4444",
+      "#06B6D4",
+      "#84CC16",
+    ];
+    return Object.entries(tasksByTrade).map(([trade, tasksInTrade], index) => ({
+      id: `phase-${index}`,
+      name: trade,
+      color: tradeColors[index % tradeColors.length],
+      collapsed: false,
+      tasks: tasksInTrade,
+    }));
   };
 
-  const [phases, setPhases] = useState<any[]>(projectData.phases);
+  const [phases, setPhases] = useState<any[]>([]);
+
+  // Update phases when tasks or projects change
+  React.useEffect(() => {
+    setPhases(createPhasesFromTasks());
+  }, [tasks, projects, currentProject]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handlePhaseToggle = (phaseId: string) => {
