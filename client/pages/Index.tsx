@@ -63,7 +63,7 @@ export default function Index() {
         "Update task completion",
         "Track milestones",
       ],
-      credentials: "Username: member1 | Password: member123",
+      credentials: "Create users via Admin dashboard",
     },
     client: {
       icon: Eye,
