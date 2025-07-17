@@ -219,7 +219,7 @@ export default function ProjectTimeline() {
     ],
   };
 
-  const [phases, setPhases] = useState(projectData.phases);
+  const [phases, setPhases] = useState<any[]>(projectData.phases);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handlePhaseToggle = (phaseId: string) => {
