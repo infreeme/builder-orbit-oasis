@@ -18,6 +18,7 @@ export interface User {
   username: string;
   name: string;
   role: "admin" | "member" | "client";
+  password: string;
   assignedProjects?: string[];
 }
 
