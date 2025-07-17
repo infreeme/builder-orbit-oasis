@@ -358,6 +358,9 @@ export default function AdminDashboard() {
         {/* Task Management Section */}
         <TaskManagement />
 
+        {/* User Management Section */}
+        <UserManagement />
+
         {/* New Project Dialog */}
         <Dialog
           open={showNewProjectDialog}
