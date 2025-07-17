@@ -76,7 +76,7 @@ export default function Index() {
         "See uploaded media",
         "Track milestones",
       ],
-      credentials: "Username: client1 | Password: client123",
+      credentials: "Create users via Admin dashboard",
     },
   };
 
