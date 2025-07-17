@@ -50,7 +50,7 @@ export default function Index() {
         "Full timeline control",
         "Data analytics",
       ],
-      credentials: "Username: admin | Password: admin123",
+      credentials: "Username: admin | Password: (any password)",
     },
     member: {
       icon: Users,
