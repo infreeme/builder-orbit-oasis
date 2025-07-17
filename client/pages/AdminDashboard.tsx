@@ -108,18 +108,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleAddUser = () => {
-    if (newUserData.name && newUserData.username) {
-      addUser({
-        name: newUserData.name,
-        username: newUserData.username,
-        role: newUserData.role as "admin" | "member" | "client",
-      });
-      setShowManageUsersDialog(false);
-      setNewUserData({ name: "", username: "", role: "member" });
-    }
-  };
-
   const handleUpdateProject = () => {
     if (editingProject && editingProject.id) {
       updateProject(editingProject.id, {
