@@ -33,7 +33,7 @@ import UserManagement from "@/components/UserManagement";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
-  const { projects, addProject, updateProject, users, addUser } = useData();
+  const { projects, addProject, updateProject } = useData();
   const navigate = useNavigate();
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
