@@ -74,6 +74,40 @@ export default function ProjectTimeline() {
     setPhases(createPhasesFromTasks());
   }, [tasks, projects, currentProject]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  // Handle timeline controls
+  const handleZoomIn = () => {
+    setZoomLevel((prev) => Math.min(prev + 0.2, 2));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel((prev) => Math.max(prev - 0.2, 0.5));
+  };
+
+  const handleExport = () => {
+    // Create export data
+    const exportData = {
+      project: currentProject?.name || "No Project",
+      phases: phases,
+      exportDate: new Date().toISOString(),
+      totalTasks: allTasks.length,
+      completedTasks: completedTasks.length,
+      overallProgress: overallProgress,
+    };
+
+    // Convert to JSON and download
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${currentProject?.name || "project"}-timeline-${new Date().toISOString().split("T")[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   const handlePhaseToggle = (phaseId: string) => {
     setPhases((prev) =>
