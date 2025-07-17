@@ -94,16 +94,27 @@ export default function AdminDashboard() {
   };
 
   const handleCreateProject = () => {
-    console.log("Creating project:", newProjectData);
-    // Add API call to create project
-    setShowNewProjectDialog(false);
-    // Reset form
-    setNewProjectData({
-      name: "",
-      startDate: "",
-      endDate: "",
-      description: "",
-    });
+    if (
+      newProjectData.name &&
+      newProjectData.startDate &&
+      newProjectData.endDate
+    ) {
+      addProject({
+        name: newProjectData.name,
+        startDate: newProjectData.startDate,
+        endDate: newProjectData.endDate,
+        status: "planned",
+        progress: 0,
+        description: newProjectData.description,
+      });
+      setShowNewProjectDialog(false);
+      setNewProjectData({
+        name: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+      });
+    }
   };
 
   const handleAddUser = () => {
