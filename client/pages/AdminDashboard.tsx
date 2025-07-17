@@ -334,14 +334,7 @@ export default function AdminDashboard() {
                 <Plus className="w-8 h-8 text-primary" />
                 <span>Create Project</span>
               </Button>
-              <Button
-                variant="outline"
-                className="h-auto p-6 flex-col gap-3"
-                onClick={handleManageUsers}
-              >
-                <Users className="w-8 h-8 text-info" />
-                <span>Add User</span>
-              </Button>
+
               <Button
                 variant="outline"
                 className="h-auto p-6 flex-col gap-3"
