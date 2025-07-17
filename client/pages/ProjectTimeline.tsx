@@ -406,7 +406,7 @@ export default function ProjectTimeline() {
 
         {/* Gantt Chart */}
         <GanttChart
-          phases={phases}
+          phases={phases as any}
           startDate={projectData.startDate}
           endDate={projectData.endDate}
           userRole={user?.role as "admin" | "member" | "client"}
