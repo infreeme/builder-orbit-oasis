@@ -231,6 +231,79 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     }
   };
 
+  // Phase functions
+  const addPhase = (projectId: string, phaseData: Omit<Phase, "id">) => {
+    const newPhase: Phase = {
+      ...phaseData,
+      id: Date.now().toString(),
+    };
+
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === projectId
+          ? { ...project, phases: [...project.phases, newPhase] }
+          : project,
+      ),
+    );
+  };
+
+  const updatePhase = (
+    projectId: string,
+    phaseId: string,
+    updates: Partial<Phase>,
+  ) => {
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === projectId
+          ? {
+              ...project,
+              phases: project.phases.map((phase) =>
+                phase.id === phaseId ? { ...phase, ...updates } : phase,
+              ),
+            }
+          : project,
+      ),
+    );
+  };
+
+  const deletePhase = (projectId: string, phaseId: string) => {
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === projectId
+          ? {
+              ...project,
+              phases: project.phases.filter((phase) => phase.id !== phaseId),
+            }
+          : project,
+      ),
+    );
+
+    // Remove phase assignment from tasks
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.phaseId === phaseId ? { ...task, phaseId: undefined } : task,
+      ),
+    );
+  };
+
+  const reorderPhases = (projectId: string, phaseIds: string[]) => {
+    setProjects((prev) =>
+      prev.map((project) =>
+        project.id === projectId
+          ? {
+              ...project,
+              phases: phaseIds
+                .map((phaseId, index) => {
+                  const phase = project.phases.find((p) => p.id === phaseId);
+                  return phase ? { ...phase, order: index } : phase;
+                })
+                .filter(Boolean) as Phase[],
+            }
+          : project,
+      ),
+    );
+  };
+
   return (
     <DataContext.Provider
       value={{
