@@ -31,6 +31,7 @@ import { useData } from "@/lib/data-context";
 import TaskManagement from "@/components/TaskManagement";
 import UserManagement from "@/components/UserManagement";
 import MediaGallery from "@/components/MediaGallery";
+import PhaseManagement from "@/components/PhaseManagement";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -427,6 +428,9 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Phase Management Section */}
+        <PhaseManagement />
 
         {/* Task Management Section */}
         <TaskManagement />
