@@ -127,7 +127,10 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
   // Project functions
   const addProject = (
-    projectData: Omit<Project, "id" | "activeTasks" | "totalTasks" | "members">,
+    projectData: Omit<
+      Project,
+      "id" | "activeTasks" | "totalTasks" | "members" | "phases"
+    >,
   ) => {
     const newProject: Project = {
       ...projectData,
@@ -135,6 +138,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       activeTasks: 0,
       totalTasks: 0,
       members: 0,
+      phases: [],
     };
     setProjects((prev) => [...prev, newProject]);
   };
