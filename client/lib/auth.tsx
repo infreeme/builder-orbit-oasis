@@ -89,6 +89,7 @@ const initialAdminUser: User = {
   username: "admin",
   role: "admin",
   name: "Administrator",
+  password: "admin123",
 };
 
 interface AuthProviderProps {
