@@ -63,9 +63,19 @@ export const UserManagement: React.FC = () => {
         username: newUserData.username,
         password: newUserData.password,
         role: newUserData.role,
+        assignedProjects:
+          newUserData.role === "client"
+            ? newUserData.assignedProjects
+            : undefined,
       });
       setShowCreateUserDialog(false);
-      setNewUserData({ name: "", username: "", password: "", role: "member" });
+      setNewUserData({
+        name: "",
+        username: "",
+        password: "",
+        role: "member",
+        assignedProjects: [],
+      });
     }
   };
 
@@ -76,6 +86,7 @@ export const UserManagement: React.FC = () => {
       username: user.username,
       password: user.password,
       role: user.role,
+      assignedProjects: user.assignedProjects || [],
     });
     setShowEditUserDialog(true);
   };
@@ -104,6 +115,10 @@ export const UserManagement: React.FC = () => {
         username: editUserData.username,
         password: editUserData.password,
         role: editUserData.role,
+        assignedProjects:
+          editUserData.role === "client"
+            ? editUserData.assignedProjects
+            : undefined,
       });
       setShowEditUserDialog(false);
       setEditingUser(null);
