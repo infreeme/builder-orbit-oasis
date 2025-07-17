@@ -60,6 +60,7 @@ interface DataContextType {
   addUser: (user: Omit<User, "id">) => void;
   updateUser: (id: string, updates: Partial<User>) => void;
   deleteUser: (id: string) => void;
+  getUserByUsername: (username: string) => User | undefined;
 
   // Tasks
   tasks: Task[];
