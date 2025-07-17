@@ -517,17 +517,7 @@ export default function AdminDashboard() {
                       }))
                     }
                   />
-                  <Input
-                    placeholder="Email"
-                    type="email"
-                    value={newUserData.email}
-                    onChange={(e) =>
-                      setNewUserData((prev) => ({
-                        ...prev,
-                        email: e.target.value,
-                      }))
-                    }
-                  />
+
                   <select
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                     value={newUserData.role}
