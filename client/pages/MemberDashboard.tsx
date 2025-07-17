@@ -34,6 +34,14 @@ export default function MemberDashboard() {
   const [showTimeTrackingDialog, setShowTimeTrackingDialog] = useState(false);
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [progressValue, setProgressValue] = useState([0]);
+  const [uploadFiles, setUploadFiles] = useState<FileList | null>(null);
+  const [uploadDescription, setUploadDescription] = useState("");
+  const [progressNotes, setProgressNotes] = useState("");
+  const [timeTrackingData, setTimeTrackingData] = useState({
+    startTime: "",
+    endTime: "",
+    description: "",
+  });
 
   const handleLogout = () => {
     logout();
