@@ -26,6 +26,7 @@ export const TaskManagement: React.FC = () => {
     trade: "",
     priority: "medium" as "high" | "medium" | "low",
     assignedTo: "",
+    phaseId: "",
   });
 
   const [editTaskData, setEditTaskData] = useState({
@@ -37,6 +38,7 @@ export const TaskManagement: React.FC = () => {
     assignedTo: "",
     status: "planned" as "planned" | "in-progress" | "delayed" | "completed",
     progress: 0,
+    phaseId: "",
   });
 
   const handleCreateTask = () => {
@@ -50,6 +52,7 @@ export const TaskManagement: React.FC = () => {
         trade: newTaskData.trade || "General",
         priority: newTaskData.priority,
         assignedTo: newTaskData.assignedTo || undefined,
+        phaseId: newTaskData.phaseId || undefined,
       });
       setShowCreateTaskDialog(false);
       setNewTaskData({
@@ -59,6 +62,7 @@ export const TaskManagement: React.FC = () => {
         trade: "",
         priority: "medium",
         assignedTo: "",
+        phaseId: "",
       });
     }
   };
@@ -74,6 +78,7 @@ export const TaskManagement: React.FC = () => {
       assignedTo: task.assignedTo || "",
       status: task.status,
       progress: task.progress,
+      phaseId: task.phaseId || "",
     });
     setShowEditTaskDialog(true);
   };
@@ -94,6 +99,7 @@ export const TaskManagement: React.FC = () => {
         assignedTo: editTaskData.assignedTo || undefined,
         status: editTaskData.status,
         progress: editTaskData.progress,
+        phaseId: editTaskData.phaseId || undefined,
       });
       setShowEditTaskDialog(false);
       setEditingTask(null);
