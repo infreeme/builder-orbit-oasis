@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/data-context";
+import MediaGallery from "@/components/MediaGallery";
 
 export default function ClientDashboard() {
   const { user, logout } = useAuth();
@@ -260,6 +261,9 @@ export default function ClientDashboard() {
             </div>
           ))
         )}
+
+        {/* Media Gallery Section */}
+        <MediaGallery />
 
         {/* Bottom Grid */}
         <div className="grid lg:grid-cols-2 gap-8">
