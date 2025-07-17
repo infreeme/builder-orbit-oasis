@@ -159,10 +159,12 @@ export default function ClientDashboard() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">{project.name}</h2>
               <div className="flex gap-3">
-                <Button variant="outline">
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  View Timeline
-                </Button>
+                <Link to="/timeline/1">
+                  <Button variant="outline">
+                    <BarChart3 className="w-4 h-4 mr-2" />
+                    View Timeline
+                  </Button>
+                </Link>
                 <Button variant="outline">
                   <FileImage className="w-4 h-4 mr-2" />
                   Project Gallery
