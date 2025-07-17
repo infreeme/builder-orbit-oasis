@@ -173,17 +173,20 @@ export default function ProjectTimeline() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleZoomOut}>
                 <ZoomOut className="w-4 h-4" />
               </Button>
-              <Button variant="outline" size="sm">
+              <span className="text-xs text-muted-foreground">
+                {Math.round(zoomLevel * 100)}%
+              </span>
+              <Button variant="outline" size="sm" onClick={handleZoomIn}>
                 <ZoomIn className="w-4 h-4" />
               </Button>
               <Button variant="outline" size="sm">
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleExport}>
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
