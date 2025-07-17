@@ -118,11 +118,15 @@ export default function AdminDashboard() {
   };
 
   const handleAddUser = () => {
-    console.log("Adding user:", newUserData);
-    // Add API call to create user
-    setShowManageUsersDialog(false);
-    // Reset form
-    setNewUserData({ name: "", username: "", email: "", role: "member" });
+    if (newUserData.name && newUserData.username) {
+      addUser({
+        name: newUserData.name,
+        username: newUserData.username,
+        role: newUserData.role as "admin" | "member" | "client",
+      });
+      setShowManageUsersDialog(false);
+      setNewUserData({ name: "", username: "", role: "member" });
+    }
   };
 
   const handleUpdateProject = () => {
