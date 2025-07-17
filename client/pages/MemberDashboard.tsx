@@ -513,7 +513,11 @@ export default function MemberDashboard() {
               </div>
               <div className="space-y-2">
                 <Label>Notes (Optional)</Label>
-                <Textarea placeholder="Add notes about the progress update..." />
+                <Textarea
+                  placeholder="Add notes about the progress update..."
+                  value={progressNotes}
+                  onChange={(e) => setProgressNotes(e.target.value)}
+                />
               </div>
             </div>
             <div className="flex justify-end gap-3">
@@ -523,14 +527,7 @@ export default function MemberDashboard() {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={() => {
-                  console.log("Updating progress to", progressValue[0], "%");
-                  setShowProgressDialog(false);
-                }}
-              >
-                Update Progress
-              </Button>
+              <Button onClick={handleSubmitProgress}>Update Progress</Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -550,7 +547,11 @@ export default function MemberDashboard() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label>Select Task</Label>
-                <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                <select
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={selectedTask || ""}
+                  onChange={(e) => setSelectedTask(e.target.value || null)}
+                >
                   <option value="">Select a task...</option>
                   {assignedTasks.map((task) => (
                     <option key={task.id} value={task.id}>
