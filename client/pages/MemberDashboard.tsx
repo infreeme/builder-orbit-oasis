@@ -590,7 +590,16 @@ export default function MemberDashboard() {
               </div>
               <div className="space-y-2">
                 <Label>Description</Label>
-                <Textarea placeholder="Describe the work performed..." />
+                <Textarea
+                  placeholder="Describe the work performed..."
+                  value={timeTrackingData.description}
+                  onChange={(e) =>
+                    setTimeTrackingData((prev) => ({
+                      ...prev,
+                      description: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
             <div className="flex justify-end gap-3">
@@ -600,14 +609,7 @@ export default function MemberDashboard() {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={() => {
-                  console.log("Logging time...");
-                  setShowTimeTrackingDialog(false);
-                }}
-              >
-                Log Time
-              </Button>
+              <Button onClick={handleSubmitTimeTracking}>Log Time</Button>
             </div>
           </DialogContent>
         </Dialog>
