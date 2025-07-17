@@ -97,26 +97,25 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [users, setUsers] = useState<User[]>([initialAdminUser]);
 
   const login = async (
     username: string,
     password: string,
     role: UserRole,
   ): Promise<boolean> => {
-    // Mock authentication
-    const credentials = mockCredentials[role];
-    if (
-      credentials.username === username &&
-      credentials.password === password
-    ) {
-      const userData = mockUsers.find(
-        (u) => u.username === username && u.role === role,
-      );
-      if (userData) {
-        setUser(userData);
-        return true;
-      }
+    // Simple authentication - in production, this should be secured
+    const userData = users.find(
+      (u) => u.username === username && u.role === role,
+    );
+
+    if (userData) {
+      // For demo purposes, accept any password for existing users
+      // In production, implement proper password verification
+      setUser(userData);
+      return true;
     }
+
     return false;
   };
 
