@@ -289,20 +289,50 @@ export default function ProjectTimeline() {
             </div>
           </div>
           <div className="text-sm text-muted-foreground">
-            {projectData.startDate.toLocaleDateString()} -{" "}
-            {projectData.endDate.toLocaleDateString()}
+            {currentProject
+              ? `${new Date(currentProject.startDate).toLocaleDateString()} - ${new Date(currentProject.endDate).toLocaleDateString()}`
+              : "No timeline available"}
           </div>
         </div>
 
-        {/* Gantt Chart */}
-        <GanttChart
-          phases={phases as any}
-          startDate={projectData.startDate}
-          endDate={projectData.endDate}
-          userRole={user?.role as "admin" | "member" | "client"}
-          onTaskClick={handleTaskClick}
-          onPhaseToggle={handlePhaseToggle}
-        />
+        {/* Gantt Chart or Empty State */}
+        {!currentProject || allTasks.length === 0 ? (
+          <Card>
+            <CardContent className="p-12 text-center">
+              <Calendar className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-xl font-semibold mb-2">
+                No Timeline Data Available
+              </h3>
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                {!currentProject
+                  ? "No projects have been created yet. Contact your administrator to create a project and add tasks."
+                  : "This project doesn't have any tasks yet. Tasks need to be created before the timeline can be displayed."}
+              </p>
+              {user?.role === "admin" && (
+                <Button onClick={() => navigate("/dashboard/admin")}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  {!currentProject ? "Create Project" : "Add Tasks"}
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+        ) : (
+          <div
+            style={{
+              transform: `scale(${zoomLevel})`,
+              transformOrigin: "top left",
+            }}
+          >
+            <GanttChart
+              phases={phases as any}
+              startDate={new Date(currentProject.startDate)}
+              endDate={new Date(currentProject.endDate)}
+              userRole={user?.role as "admin" | "member" | "client"}
+              onTaskClick={handleTaskClick}
+              onPhaseToggle={handlePhaseToggle}
+            />
+          </div>
+        )}
 
         {/* Legend */}
         <Card className="mt-6">
