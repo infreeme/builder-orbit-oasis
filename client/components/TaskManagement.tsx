@@ -257,6 +257,32 @@ export const TaskManagement: React.FC = () => {
               </select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-phase" className="text-right">
+                Phase
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={newTaskData.phaseId}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({
+                    ...prev,
+                    phaseId: e.target.value,
+                  }))
+                }
+              >
+                <option value="">No phase assigned</option>
+                {newTaskData.project &&
+                  projects
+                    .find((p) => p.name === newTaskData.project)
+                    ?.phases.sort((a, b) => a.order - b.order)
+                    .map((phase) => (
+                      <option key={phase.id} value={phase.id}>
+                        {phase.name}
+                      </option>
+                    ))}
+              </select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="task-trade" className="text-right">
                 Trade
               </Label>
