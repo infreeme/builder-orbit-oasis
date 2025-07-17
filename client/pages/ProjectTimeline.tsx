@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
+import { useData } from "@/lib/data-context";
 import GanttChart from "@/components/GanttChart";
 
 export default function ProjectTimeline() {
