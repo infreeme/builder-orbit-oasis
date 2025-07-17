@@ -81,17 +81,24 @@ export default function MemberDashboard() {
   };
 
   const handleSubmitUpload = () => {
-    console.log("Uploading media:", {
-      taskId: selectedTask,
-      files: uploadFiles,
-      description: uploadDescription,
-    });
-    // Add API call to upload media
-    setShowUploadDialog(false);
-    // Reset form
-    setUploadFiles(null);
-    setUploadDescription("");
-    setSelectedTask(null);
+    if (selectedTask && uploadFiles && uploadFiles.length > 0 && user) {
+      Array.from(uploadFiles).forEach((file) => {
+        // Create object URL for preview
+        const url = URL.createObjectURL(file);
+        addMedia({
+          name: file.name,
+          url: url,
+          type: file.type.startsWith("image/") ? "image" : "video",
+          taskId: selectedTask,
+          uploadedBy: user.username,
+          description: uploadDescription,
+        });
+      });
+      setShowUploadDialog(false);
+      setUploadFiles(null);
+      setUploadDescription("");
+      setSelectedTask(null);
+    }
   };
 
   const handleSubmitProgress = () => {
