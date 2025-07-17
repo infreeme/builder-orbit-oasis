@@ -436,7 +436,8 @@ export default function MemberDashboard() {
                 <Label>Select Task</Label>
                 <select
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                  defaultValue={selectedTask || ""}
+                  value={selectedTask || ""}
+                  onChange={(e) => setSelectedTask(e.target.value || null)}
                 >
                   <option value="">Select a task...</option>
                   {assignedTasks.map((task) => (
@@ -448,11 +449,20 @@ export default function MemberDashboard() {
               </div>
               <div className="space-y-2">
                 <Label>Upload Files</Label>
-                <Input type="file" multiple accept="image/*,video/*" />
+                <Input
+                  type="file"
+                  multiple
+                  accept="image/*,video/*"
+                  onChange={(e) => setUploadFiles(e.target.files)}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Description (Optional)</Label>
-                <Textarea placeholder="Add a description for your upload..." />
+                <Textarea
+                  placeholder="Add a description for your upload..."
+                  value={uploadDescription}
+                  onChange={(e) => setUploadDescription(e.target.value)}
+                />
               </div>
             </div>
             <div className="flex justify-end gap-3">
@@ -462,14 +472,7 @@ export default function MemberDashboard() {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={() => {
-                  console.log("Uploading media...");
-                  setShowUploadDialog(false);
-                }}
-              >
-                Upload
-              </Button>
+              <Button onClick={handleSubmitUpload}>Upload</Button>
             </div>
           </DialogContent>
         </Dialog>
