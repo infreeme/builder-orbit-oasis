@@ -131,8 +131,19 @@ export default function ClientDashboard() {
       </div>
 
       <div className="container mx-auto px-6 py-8">
-        {/* Projects Overview */}
-        {assignedProjects.map((project) => (
+                {/* Projects Overview */}
+        {assignedProjects.length === 0 ? (
+          <Card className="mb-8">
+            <CardContent className="p-12 text-center">
+              <Calendar className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-xl font-semibold mb-2">No Projects Available</h3>
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                You don't have access to any projects yet. Contact your administrator to be assigned to a project.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          assignedProjects.map((project) => (
           <div key={project.id} className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">{project.name}</h2>
