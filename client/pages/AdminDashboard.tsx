@@ -55,10 +55,17 @@ export default function AdminDashboard() {
   };
 
   const handleNewProject = () => {
+    setNewProjectData({
+      name: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+    });
     setShowNewProjectDialog(true);
   };
 
   const handleManageUsers = () => {
+    setNewUserData({ name: "", username: "", email: "", role: "member" });
     setShowManageUsersDialog(true);
   };
 
@@ -67,18 +74,50 @@ export default function AdminDashboard() {
   };
 
   const handleEditProject = (projectId: string) => {
-    console.log("Edit project:", projectId);
-    // Navigate to project edit page or open edit dialog
+    const project = projects.find((p) => p.id === projectId);
+    if (project) {
+      setEditingProject(project);
+      setShowEditProjectDialog(true);
+    }
   };
 
   const handleViewProjectDetails = (projectId: string) => {
     console.log("View project details:", projectId);
     // Navigate to project details page
+    navigate(`/project/${projectId}`);
   };
 
   const handleViewAnalytics = () => {
     console.log("View analytics");
     // Navigate to analytics page or open analytics dialog
+  };
+
+  const handleCreateProject = () => {
+    console.log("Creating project:", newProjectData);
+    // Add API call to create project
+    setShowNewProjectDialog(false);
+    // Reset form
+    setNewProjectData({
+      name: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+    });
+  };
+
+  const handleAddUser = () => {
+    console.log("Adding user:", newUserData);
+    // Add API call to create user
+    setShowManageUsersDialog(false);
+    // Reset form
+    setNewUserData({ name: "", username: "", email: "", role: "member" });
+  };
+
+  const handleUpdateProject = () => {
+    console.log("Updating project:", editingProject);
+    // Add API call to update project
+    setShowEditProjectDialog(false);
+    setEditingProject(null);
   };
 
   // Mock project data
