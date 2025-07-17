@@ -38,6 +38,8 @@ export default function AdminDashboard() {
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
   const [showEditProjectDialog, setShowEditProjectDialog] = useState(false);
+  const [showChangePasswordDialog, setShowChangePasswordDialog] =
+    useState(false);
   const [editingProject, setEditingProject] = useState<any>(null);
   const [newProjectData, setNewProjectData] = useState({
     name: "",
@@ -45,6 +47,13 @@ export default function AdminDashboard() {
     endDate: "",
     description: "",
   });
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
 
   const handleLogout = () => {
     logout();
