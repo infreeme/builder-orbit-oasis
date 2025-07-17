@@ -88,9 +88,18 @@ interface DataProviderProps {
   children: ReactNode;
 }
 
+// Initial admin user
+const initialAdminUser: User = {
+  id: "admin",
+  username: "admin",
+  role: "admin",
+  name: "Administrator",
+  password: "admin123",
+};
+
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([initialAdminUser]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [media, setMedia] = useState<MediaFile[]>([]);
 
