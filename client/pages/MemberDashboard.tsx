@@ -50,6 +50,8 @@ export default function MemberDashboard() {
 
   const handleUploadMedia = (taskId?: string) => {
     setSelectedTask(taskId || null);
+    setUploadFiles(null);
+    setUploadDescription("");
     setShowUploadDialog(true);
   };
 
@@ -61,16 +63,55 @@ export default function MemberDashboard() {
       }
     }
     setSelectedTask(taskId || null);
+    setProgressNotes("");
     setShowProgressDialog(true);
   };
 
   const handleTimeTracking = () => {
+    setTimeTrackingData({ startTime: "", endTime: "", description: "" });
     setShowTimeTrackingDialog(true);
   };
 
   const handleViewTaskDetails = (taskId: string) => {
     console.log("View task details:", taskId);
     // Navigate to task details or open details dialog
+    navigate(`/task/${taskId}`);
+  };
+
+  const handleSubmitUpload = () => {
+    console.log("Uploading media:", {
+      taskId: selectedTask,
+      files: uploadFiles,
+      description: uploadDescription,
+    });
+    // Add API call to upload media
+    setShowUploadDialog(false);
+    // Reset form
+    setUploadFiles(null);
+    setUploadDescription("");
+    setSelectedTask(null);
+  };
+
+  const handleSubmitProgress = () => {
+    console.log("Updating progress:", {
+      taskId: selectedTask,
+      progress: progressValue[0],
+      notes: progressNotes,
+    });
+    // Add API call to update progress
+    setShowProgressDialog(false);
+    // Reset form
+    setProgressNotes("");
+    setProgressValue([0]);
+    setSelectedTask(null);
+  };
+
+  const handleSubmitTimeTracking = () => {
+    console.log("Logging time:", timeTrackingData);
+    // Add API call to log time
+    setShowTimeTrackingDialog(false);
+    // Reset form
+    setTimeTrackingData({ startTime: "", endTime: "", description: "" });
   };
 
   // Mock assigned tasks
