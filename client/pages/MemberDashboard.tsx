@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Calendar,
@@ -13,15 +13,56 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Slider } from "@/components/ui/slider";
 import { useAuth } from "@/lib/auth";
 
 export default function MemberDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [showUploadDialog, setShowUploadDialog] = useState(false);
+  const [showProgressDialog, setShowProgressDialog] = useState(false);
+  const [showTimeTrackingDialog, setShowTimeTrackingDialog] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<string | null>(null);
+  const [progressValue, setProgressValue] = useState([0]);
 
   const handleLogout = () => {
     logout();
     navigate("/");
+  };
+
+  const handleUploadMedia = (taskId?: string) => {
+    setSelectedTask(taskId || null);
+    setShowUploadDialog(true);
+  };
+
+  const handleUpdateProgress = (taskId?: string) => {
+    if (taskId) {
+      const task = assignedTasks.find((t) => t.id === taskId);
+      if (task) {
+        setProgressValue([task.progress]);
+      }
+    }
+    setSelectedTask(taskId || null);
+    setShowProgressDialog(true);
+  };
+
+  const handleTimeTracking = () => {
+    setShowTimeTrackingDialog(true);
+  };
+
+  const handleViewTaskDetails = (taskId: string) => {
+    console.log("View task details:", taskId);
+    // Navigate to task details or open details dialog
   };
 
   // Mock assigned tasks
@@ -181,7 +222,7 @@ export default function MemberDashboard() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">My Assigned Tasks</h2>
-            <Button>
+            <Button onClick={() => handleUploadMedia()}>
               <Camera className="w-4 h-4 mr-2" />
               Upload Photo
             </Button>
@@ -223,14 +264,27 @@ export default function MemberDashboard() {
                           Due: {new Date(task.dueDate).toLocaleDateString()}
                         </p>
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleUploadMedia(task.id)}
+                          >
                             <Upload className="w-4 h-4 mr-2" />
                             Upload Media
                           </Button>
-                          <Button size="sm" variant="outline">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleUpdateProgress(task.id)}
+                          >
                             Update Progress
                           </Button>
-                          <Button size="sm">View Details</Button>
+                          <Button
+                            size="sm"
+                            onClick={() => handleViewTaskDetails(task.id)}
+                          >
+                            View Details
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -280,11 +334,19 @@ export default function MemberDashboard() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="h-auto p-6 flex-col gap-3">
+                <Button
+                  variant="outline"
+                  className="h-auto p-6 flex-col gap-3"
+                  onClick={() => handleUploadMedia()}
+                >
                   <Camera className="w-8 h-8 text-info" />
                   <span>Upload Photo</span>
                 </Button>
-                <Button variant="outline" className="h-auto p-6 flex-col gap-3">
+                <Button
+                  variant="outline"
+                  className="h-auto p-6 flex-col gap-3"
+                  onClick={() => handleUpdateProgress()}
+                >
                   <CheckCircle className="w-8 h-8 text-success" />
                   <span>Update Progress</span>
                 </Button>
@@ -297,7 +359,11 @@ export default function MemberDashboard() {
                     <span>View Timeline</span>
                   </Button>
                 </Link>
-                <Button variant="outline" className="h-auto p-6 flex-col gap-3">
+                <Button
+                  variant="outline"
+                  className="h-auto p-6 flex-col gap-3"
+                  onClick={handleTimeTracking}
+                >
                   <Clock className="w-8 h-8 text-warning" />
                   <span>Time Tracking</span>
                 </Button>
@@ -305,6 +371,175 @@ export default function MemberDashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Upload Media Dialog */}
+        <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogHeader>
+              <DialogTitle>Upload Media</DialogTitle>
+              <DialogDescription>
+                Upload photos or videos for{" "}
+                {selectedTask ? `task ${selectedTask}` : "your tasks"}.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Select Task</Label>
+                <select
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  defaultValue={selectedTask || ""}
+                >
+                  <option value="">Select a task...</option>
+                  {assignedTasks.map((task) => (
+                    <option key={task.id} value={task.id}>
+                      {task.name} - {task.project}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <Label>Upload Files</Label>
+                <Input type="file" multiple accept="image/*,video/*" />
+              </div>
+              <div className="space-y-2">
+                <Label>Description (Optional)</Label>
+                <Textarea placeholder="Add a description for your upload..." />
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowUploadDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  console.log("Uploading media...");
+                  setShowUploadDialog(false);
+                }}
+              >
+                Upload
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Update Progress Dialog */}
+        <Dialog open={showProgressDialog} onOpenChange={setShowProgressDialog}>
+          <DialogContent className="sm:max-w-[400px]">
+            <DialogHeader>
+              <DialogTitle>Update Progress</DialogTitle>
+              <DialogDescription>
+                Update the completion percentage for{" "}
+                {selectedTask ? `task ${selectedTask}` : "a task"}.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              {!selectedTask && (
+                <div className="space-y-2">
+                  <Label>Select Task</Label>
+                  <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                    <option value="">Select a task...</option>
+                    {assignedTasks.map((task) => (
+                      <option key={task.id} value={task.id}>
+                        {task.name} - {task.progress}%
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <div className="space-y-2">
+                <Label>Progress: {progressValue[0]}%</Label>
+                <Slider
+                  value={progressValue}
+                  onValueChange={setProgressValue}
+                  max={100}
+                  step={5}
+                  className="w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Notes (Optional)</Label>
+                <Textarea placeholder="Add notes about the progress update..." />
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowProgressDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  console.log("Updating progress to", progressValue[0], "%");
+                  setShowProgressDialog(false);
+                }}
+              >
+                Update Progress
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Time Tracking Dialog */}
+        <Dialog
+          open={showTimeTrackingDialog}
+          onOpenChange={setShowTimeTrackingDialog}
+        >
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogHeader>
+              <DialogTitle>Time Tracking</DialogTitle>
+              <DialogDescription>
+                Track time spent on tasks and view your time reports.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Select Task</Label>
+                <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                  <option value="">Select a task...</option>
+                  {assignedTasks.map((task) => (
+                    <option key={task.id} value={task.id}>
+                      {task.name} - {task.project}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Start Time</Label>
+                  <Input type="datetime-local" />
+                </div>
+                <div className="space-y-2">
+                  <Label>End Time</Label>
+                  <Input type="datetime-local" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Description</Label>
+                <Textarea placeholder="Describe the work performed..." />
+              </div>
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowTimeTrackingDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  console.log("Logging time...");
+                  setShowTimeTrackingDialog(false);
+                }}
+              >
+                Log Time
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
