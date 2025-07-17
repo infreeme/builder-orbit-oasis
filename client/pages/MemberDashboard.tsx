@@ -563,7 +563,16 @@ export default function MemberDashboard() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Start Time</Label>
-                  <Input type="datetime-local" />
+                  <Input
+                    type="datetime-local"
+                    value={timeTrackingData.startTime}
+                    onChange={(e) =>
+                      setTimeTrackingData((prev) => ({
+                        ...prev,
+                        startTime: e.target.value,
+                      }))
+                    }
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>End Time</Label>
