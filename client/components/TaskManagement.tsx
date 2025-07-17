@@ -165,10 +165,33 @@ export const TaskManagement: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium">{task.progress}%</div>
-                    <div className="text-xs text-muted-foreground capitalize">
-                      {task.status}
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <div className="text-sm font-medium">
+                        {task.progress}%
+                      </div>
+                      <div className="text-xs text-muted-foreground capitalize">
+                        {task.status}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleEditTask(task)}
+                      >
+                        <Edit className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDeleteTask(task.id)}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Delete
+                      </Button>
                     </div>
                   </div>
                 </div>
