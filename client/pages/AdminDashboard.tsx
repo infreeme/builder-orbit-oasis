@@ -47,7 +47,6 @@ export default function AdminDashboard() {
   const [newUserData, setNewUserData] = useState({
     name: "",
     username: "",
-    email: "",
     role: "member",
   });
 
