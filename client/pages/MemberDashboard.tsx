@@ -312,6 +312,13 @@ export default function MemberDashboard() {
                           </Button>
                         </div>
                       </div>
+
+                      {/* Media Preview */}
+                      {task.media && task.media.length > 0 && (
+                        <div className="mt-4 pt-4 border-t">
+                          <MediaPreview media={task.media} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
