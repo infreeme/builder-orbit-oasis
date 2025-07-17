@@ -52,56 +52,30 @@ export default function ClientDashboard() {
     };
   });
 
-  const upcomingMilestones = [
-    {
-      id: "1",
-      name: "Structural Inspection",
+  // Generate upcoming milestones from tasks (can be expanded)
+  const upcomingMilestones = tasks
+    .filter((task) => task.dueDate && new Date(task.dueDate) > new Date())
+    .slice(0, 5)
+    .map((task) => ({
+      id: task.id,
+      name: `${task.name} Due`,
       type: "inspection" as const,
-      date: "2024-07-18",
+      date: task.dueDate,
       status: "pending" as const,
-      project: "Downtown Office Complex",
-    },
-    {
-      id: "2",
-      name: "Phase 2 Approval",
-      type: "approval" as const,
-      date: "2024-07-25",
-      status: "pending" as const,
-      project: "Downtown Office Complex",
-    },
-    {
-      id: "3",
-      name: "MEP Systems Handover",
-      type: "handover" as const,
-      date: "2024-08-01",
-      status: "scheduled" as const,
-      project: "Downtown Office Complex",
-    },
-  ];
+      project: task.project,
+    }));
 
-  const recentUpdates = [
-    {
-      id: "1",
-      title: "Foundation work completed ahead of schedule",
-      description: "All foundation work has been completed 3 days early",
-      date: "2024-07-12",
-      type: "progress",
-    },
-    {
-      id: "2",
-      title: "New progress photos uploaded",
-      description: "15 new photos added to structural work documentation",
-      date: "2024-07-11",
-      type: "media",
-    },
-    {
-      id: "3",
-      title: "Weather delay notification",
-      description: "2-day delay due to severe weather conditions",
-      date: "2024-07-10",
-      type: "delay",
-    },
-  ];
+  // Generate recent updates from task progress changes
+  const recentUpdates = tasks
+    .filter((task) => task.progress > 0)
+    .slice(0, 5)
+    .map((task, index) => ({
+      id: task.id,
+      title: `${task.name} Progress Update`,
+      description: `Task progress updated to ${task.progress}%`,
+      date: new Date().toISOString().split("T")[0], // Would be actual update date in real app
+      type: task.status === "completed" ? "progress" : "update",
+    }));
 
   const getStatusColor = (status: string) => {
     switch (status) {
