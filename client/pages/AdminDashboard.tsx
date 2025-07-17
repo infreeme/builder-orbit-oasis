@@ -31,6 +31,7 @@ import { useData } from "@/lib/data-context";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
+  const { projects, addProject, updateProject, users, addUser } = useData();
   const navigate = useNavigate();
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
   const [showManageUsersDialog, setShowManageUsersDialog] = useState(false);
