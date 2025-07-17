@@ -25,7 +25,7 @@ import {
 import { useData, type User } from "@/lib/data-context";
 
 export const UserManagement: React.FC = () => {
-  const { users, addUser, updateUser, deleteUser } = useData();
+  const { users, addUser, updateUser, deleteUser, projects } = useData();
   const [showCreateUserDialog, setShowCreateUserDialog] = useState(false);
   const [showEditUserDialog, setShowEditUserDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -39,6 +39,7 @@ export const UserManagement: React.FC = () => {
     username: "",
     password: "",
     role: "member" as "admin" | "member" | "client",
+    assignedProjects: [] as string[],
   });
 
   const [editUserData, setEditUserData] = useState({
@@ -46,6 +47,7 @@ export const UserManagement: React.FC = () => {
     username: "",
     password: "",
     role: "member" as "admin" | "member" | "client",
+    assignedProjects: [] as string[],
   });
 
   const handleCreateUser = () => {
