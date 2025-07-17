@@ -388,6 +388,9 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
+        {/* Task Management Section */}
+        <TaskManagement />
+
         {/* New Project Dialog */}
         <Dialog
           open={showNewProjectDialog}
