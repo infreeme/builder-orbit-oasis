@@ -42,6 +42,7 @@ export default function AdminDashboard() {
   const [showEditProjectDialog, setShowEditProjectDialog] = useState(false);
   const [showChangePasswordDialog, setShowChangePasswordDialog] =
     useState(false);
+  const [showAnalyticsDialog, setShowAnalyticsDialog] = useState(false);
   const [editingProject, setEditingProject] = useState<any>(null);
   const [newProjectData, setNewProjectData] = useState({
     name: "",
@@ -91,8 +92,7 @@ export default function AdminDashboard() {
   };
 
   const handleViewAnalytics = () => {
-    console.log("View analytics");
-    // Navigate to analytics page or open analytics dialog
+    setShowAnalyticsDialog(true);
   };
 
   const handleCreateProject = () => {
