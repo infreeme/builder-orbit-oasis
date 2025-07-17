@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/lib/auth";
+import { useData } from "@/lib/data-context";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
