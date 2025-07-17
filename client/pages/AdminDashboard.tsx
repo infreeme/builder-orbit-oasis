@@ -418,19 +418,48 @@ export default function AdminDashboard() {
                   id="project-name"
                   placeholder="Enter project name"
                   className="col-span-3"
+                  value={newProjectData.name}
+                  onChange={(e) =>
+                    setNewProjectData((prev) => ({
+                      ...prev,
+                      name: e.target.value,
+                    }))
+                  }
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="start-date" className="text-right">
                   Start Date
                 </Label>
-                <Input id="start-date" type="date" className="col-span-3" />
+                <Input
+                  id="start-date"
+                  type="date"
+                  className="col-span-3"
+                  value={newProjectData.startDate}
+                  onChange={(e) =>
+                    setNewProjectData((prev) => ({
+                      ...prev,
+                      startDate: e.target.value,
+                    }))
+                  }
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="end-date" className="text-right">
                   End Date
                 </Label>
-                <Input id="end-date" type="date" className="col-span-3" />
+                <Input
+                  id="end-date"
+                  type="date"
+                  className="col-span-3"
+                  value={newProjectData.endDate}
+                  onChange={(e) =>
+                    setNewProjectData((prev) => ({
+                      ...prev,
+                      endDate: e.target.value,
+                    }))
+                  }
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="description" className="text-right">
@@ -440,6 +469,13 @@ export default function AdminDashboard() {
                   id="description"
                   placeholder="Project description"
                   className="col-span-3"
+                  value={newProjectData.description}
+                  onChange={(e) =>
+                    setNewProjectData((prev) => ({
+                      ...prev,
+                      description: e.target.value,
+                    }))
+                  }
                 />
               </div>
             </div>
@@ -450,14 +486,7 @@ export default function AdminDashboard() {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={() => {
-                  console.log("Creating new project...");
-                  setShowNewProjectDialog(false);
-                }}
-              >
-                Create Project
-              </Button>
+              <Button onClick={handleCreateProject}>Create Project</Button>
             </div>
           </DialogContent>
         </Dialog>
