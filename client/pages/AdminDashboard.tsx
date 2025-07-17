@@ -34,6 +34,20 @@ export default function AdminDashboard() {
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
   const [showManageUsersDialog, setShowManageUsersDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
+  const [showEditProjectDialog, setShowEditProjectDialog] = useState(false);
+  const [editingProject, setEditingProject] = useState<any>(null);
+  const [newProjectData, setNewProjectData] = useState({
+    name: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+  });
+  const [newUserData, setNewUserData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    role: "member",
+  });
 
   const handleLogout = () => {
     logout();
