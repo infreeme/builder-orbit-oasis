@@ -20,6 +20,7 @@ import { useData } from "@/lib/data-context";
 
 export default function ClientDashboard() {
   const { user, logout } = useAuth();
+  const { projects, tasks } = useData();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -27,27 +28,29 @@ export default function ClientDashboard() {
     navigate("/");
   };
 
-  // Mock project data for client view
-  const assignedProjects = [
-    {
-      id: "1",
-      name: "Downtown Office Complex",
-      progress: 68,
-      status: "in-progress" as const,
-      startDate: "2024-03-01",
-      endDate: "2024-08-15",
-      totalTasks: 18,
-      completedTasks: 12,
-      activeMilestones: 3,
-      totalBudget: 2500000,
-      phases: [
-        { name: "Foundation", progress: 100, status: "completed" },
-        { name: "Structure", progress: 85, status: "in-progress" },
-        { name: "Envelope", progress: 45, status: "in-progress" },
-        { name: "Interior", progress: 0, status: "planned" },
-      ],
-    },
-  ];
+  // Get projects and calculate stats from real data
+  const assignedProjects = projects.map((project) => {
+    const projectTasks = tasks.filter((task) => task.project === project.name);
+    const completedTasks = projectTasks.filter(
+      (task) => task.status === "completed",
+    );
+    const overallProgress =
+      projectTasks.length > 0
+        ? Math.round(
+            projectTasks.reduce((sum, task) => sum + task.progress, 0) /
+              projectTasks.length,
+          )
+        : 0;
+
+    return {
+      ...project,
+      totalTasks: projectTasks.length,
+      completedTasks: completedTasks.length,
+      activeMilestones: 0, // Can be calculated from task milestones
+      overallProgress,
+      phases: [], // Can be generated from tasks grouped by trade
+    };
+  });
 
   const upcomingMilestones = [
     {
