@@ -5,6 +5,7 @@ import Index from "@/pages/Index";
 import AdminDashboard from "@/pages/AdminDashboard";
 import MemberDashboard from "@/pages/MemberDashboard";
 import ClientDashboard from "@/pages/ClientDashboard";
+import ProjectTimeline from "@/pages/ProjectTimeline";
 import NotFound from "@/pages/NotFound";
 
 // Protected Route Component
