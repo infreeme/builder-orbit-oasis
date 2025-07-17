@@ -239,15 +239,23 @@ export default function ProjectTimeline() {
 
   // Calculate project stats
   const allTasks = phases.flatMap((phase) => phase.tasks);
-  const completedTasks = allTasks.filter((task) => task.status === "completed");
+  const completedTasks = allTasks.filter(
+    (task: any) => task.status === "completed",
+  );
   const inProgressTasks = allTasks.filter(
-    (task) => task.status === "in-progress",
+    (task: any) => task.status === "in-progress",
   );
-  const delayedTasks = allTasks.filter((task) => task.status === "delayed");
+  const delayedTasks = allTasks.filter(
+    (task: any) => task.status === "delayed",
+  );
 
-  const overallProgress = Math.round(
-    allTasks.reduce((sum, task) => sum + task.progress, 0) / allTasks.length,
-  );
+  const overallProgress =
+    allTasks.length > 0
+      ? Math.round(
+          allTasks.reduce((sum: number, task: any) => sum + task.progress, 0) /
+            allTasks.length,
+        )
+      : 0;
 
   return (
     <div className="min-h-screen bg-background">
