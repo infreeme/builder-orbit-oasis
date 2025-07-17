@@ -20,9 +20,10 @@ import GanttChart from "@/components/GanttChart";
 
 export default function ProjectTimeline() {
   const { user } = useAuth();
+  const { projects, tasks } = useData();
   const navigate = useNavigate();
 
-  // Mock project data
+  // Get project data from context
   const projectData = {
     name: "Downtown Office Complex",
     startDate: new Date("2024-03-01"),
