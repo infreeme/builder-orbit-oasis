@@ -333,6 +333,60 @@ export const UserManagement: React.FC = () => {
                 <option value="admin">Admin</option>
               </select>
             </div>
+            {newUserData.role === "client" && (
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="new-projects" className="text-right">
+                  Assigned Projects
+                </Label>
+                <div className="col-span-3 space-y-2">
+                  {projects.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">
+                      No projects available
+                    </p>
+                  ) : (
+                    projects.map((project) => (
+                      <div
+                        key={project.id}
+                        className="flex items-center space-x-2"
+                      >
+                        <input
+                          type="checkbox"
+                          id={`new-project-${project.id}`}
+                          checked={newUserData.assignedProjects.includes(
+                            project.id,
+                          )}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setNewUserData((prev) => ({
+                                ...prev,
+                                assignedProjects: [
+                                  ...prev.assignedProjects,
+                                  project.id,
+                                ],
+                              }));
+                            } else {
+                              setNewUserData((prev) => ({
+                                ...prev,
+                                assignedProjects: prev.assignedProjects.filter(
+                                  (id) => id !== project.id,
+                                ),
+                              }));
+                            }
+                          }}
+                          className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                        />
+                        <Label
+                          htmlFor={`new-project-${project.id}`}
+                          className="text-sm"
+                        >
+                          {project.name}
+                        </Label>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex justify-end gap-3">
             <Button
