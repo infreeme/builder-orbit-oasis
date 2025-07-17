@@ -26,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/data-context";
+import MediaPreview from "@/components/MediaPreview";
 
 export default function MemberDashboard() {
   const { user, logout } = useAuth();
