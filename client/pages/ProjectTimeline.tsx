@@ -21,7 +21,7 @@ import GanttChart from "@/components/GanttChart";
 
 export default function ProjectTimeline() {
   const { user } = useAuth();
-  const { projects, tasks } = useData();
+  const { projects, tasks, media } = useData();
   const navigate = useNavigate();
 
   // Get project data from context - use first project or null if none exist
@@ -39,11 +39,15 @@ export default function ProjectTimeline() {
         if (!acc[trade]) {
           acc[trade] = [];
         }
+        // Get media files for this task
+        const taskMedia = media.filter((m) => m.taskId === task.id);
+
         acc[trade].push({
           ...task,
           startDate: new Date(task.dueDate),
           endDate: new Date(task.dueDate),
-          mediaCount: task.media?.length || 0,
+          mediaCount: taskMedia.length,
+          media: taskMedia,
           milestones: [], // Can be expanded later
           dependencies: [],
         });
