@@ -66,7 +66,7 @@ export default function AdminDashboard() {
   };
 
   const handleManageUsers = () => {
-    setNewUserData({ name: "", username: "", email: "", role: "member" });
+    setNewUserData({ name: "", username: "", role: "member" });
     setShowManageUsersDialog(true);
   };
 
