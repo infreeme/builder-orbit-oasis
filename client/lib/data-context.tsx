@@ -323,6 +323,10 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         addMedia,
         deleteMedia,
         getUserByUsername,
+        addPhase,
+        updatePhase,
+        deletePhase,
+        reorderPhases,
       }}
     >
       {children}
