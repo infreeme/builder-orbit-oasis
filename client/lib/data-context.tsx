@@ -84,6 +84,16 @@ interface DataContextType {
   media: MediaFile[];
   addMedia: (media: Omit<MediaFile, "id" | "uploadedAt">) => void;
   deleteMedia: (id: string) => void;
+
+  // Phases
+  addPhase: (projectId: string, phase: Omit<Phase, "id">) => void;
+  updatePhase: (
+    projectId: string,
+    phaseId: string,
+    updates: Partial<Phase>,
+  ) => void;
+  deletePhase: (projectId: string, phaseId: string) => void;
+  reorderPhases: (projectId: string, phaseIds: string[]) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
