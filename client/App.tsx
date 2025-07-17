@@ -95,13 +95,15 @@ const AppRoutes: React.FC = () => {
 // Main App Component
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <div className="min-h-screen bg-background">
-          <AppRoutes />
-        </div>
-      </BrowserRouter>
-    </AuthProvider>
+    <DataProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <div className="min-h-screen bg-background">
+            <AppRoutes />
+          </div>
+        </BrowserRouter>
+      </AuthProvider>
+    </DataProvider>
   );
 }
 
