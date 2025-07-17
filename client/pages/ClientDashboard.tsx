@@ -131,129 +131,135 @@ export default function ClientDashboard() {
       </div>
 
       <div className="container mx-auto px-6 py-8">
-                {/* Projects Overview */}
+        {/* Projects Overview */}
         {assignedProjects.length === 0 ? (
           <Card className="mb-8">
             <CardContent className="p-12 text-center">
               <Calendar className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-xl font-semibold mb-2">No Projects Available</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                No Projects Available
+              </h3>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                You don't have access to any projects yet. Contact your administrator to be assigned to a project.
+                You don't have access to any projects yet. Contact your
+                administrator to be assigned to a project.
               </p>
             </CardContent>
           </Card>
         ) : (
           assignedProjects.map((project) => (
-          <div key={project.id} className="mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">{project.name}</h2>
-              <div className="flex gap-3">
-                <Link to="/timeline/1">
+            <div key={project.id} className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold">{project.name}</h2>
+                <div className="flex gap-3">
+                  <Link to="/timeline/1">
+                    <Button variant="outline">
+                      <BarChart3 className="w-4 h-4 mr-2" />
+                      View Timeline
+                    </Button>
+                  </Link>
                   <Button variant="outline">
-                    <BarChart3 className="w-4 h-4 mr-2" />
-                    View Timeline
+                    <FileImage className="w-4 h-4 mr-2" />
+                    Project Gallery
                   </Button>
-                </Link>
-                <Button variant="outline">
-                  <FileImage className="w-4 h-4 mr-2" />
-                  Project Gallery
-                </Button>
-              </div>
-            </div>
-
-            {/* Project Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Overall Progress
-                      </p>
-                      <p className="text-2xl font-bold">{project.progress}%</p>
-                    </div>
-                    <BarChart3 className="w-8 h-8 text-primary" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Tasks Completed
-                      </p>
-                      <p className="text-2xl font-bold">
-                        {project.completedTasks}/{project.totalTasks}
-                      </p>
-                    </div>
-                    <CheckCircle className="w-8 h-8 text-success" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Active Milestones
-                      </p>
-                      <p className="text-2xl font-bold">
-                        {project.activeMilestones}
-                      </p>
-                    </div>
-                    <Milestone className="w-8 h-8 text-info" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        Completion Date
-                      </p>
-                      <p className="text-lg font-bold">
-                        {new Date(project.endDate).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <Calendar className="w-8 h-8 text-accent" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Project Phases */}
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle>Project Phases</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {project.phases.map((phase, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <span className="font-medium">{phase.name}</span>
-                          <Badge className={getStatusColor(phase.status)}>
-                            {phase.status}
-                          </Badge>
-                        </div>
-                        <span className="text-sm font-medium">
-                          {phase.progress}%
-                        </span>
-                      </div>
-                      <Progress value={phase.progress} className="h-2" />
-                    </div>
-                  ))}
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
+              </div>
+
+              {/* Project Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">
+                          Overall Progress
+                        </p>
+                        <p className="text-2xl font-bold">
+                          {project.progress}%
+                        </p>
+                      </div>
+                      <BarChart3 className="w-8 h-8 text-primary" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">
+                          Tasks Completed
+                        </p>
+                        <p className="text-2xl font-bold">
+                          {project.completedTasks}/{project.totalTasks}
+                        </p>
+                      </div>
+                      <CheckCircle className="w-8 h-8 text-success" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">
+                          Active Milestones
+                        </p>
+                        <p className="text-2xl font-bold">
+                          {project.activeMilestones}
+                        </p>
+                      </div>
+                      <Milestone className="w-8 h-8 text-info" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">
+                          Completion Date
+                        </p>
+                        <p className="text-lg font-bold">
+                          {new Date(project.endDate).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Calendar className="w-8 h-8 text-accent" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Project Phases */}
+              <Card className="mb-8">
+                <CardHeader>
+                  <CardTitle>Project Phases</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {project.phases.map((phase, index) => (
+                      <div key={index} className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <span className="font-medium">{phase.name}</span>
+                            <Badge className={getStatusColor(phase.status)}>
+                              {phase.status}
+                            </Badge>
+                          </div>
+                          <span className="text-sm font-medium">
+                            {phase.progress}%
+                          </span>
+                        </div>
+                        <Progress value={phase.progress} className="h-2" />
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ))
+        )}
 
         {/* Bottom Grid */}
         <div className="grid lg:grid-cols-2 gap-8">
