@@ -334,6 +334,183 @@ export const TaskManagement: React.FC = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Edit Task Dialog */}
+      <Dialog open={showEditTaskDialog} onOpenChange={setShowEditTaskDialog}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Edit Task</DialogTitle>
+            <DialogDescription>
+              Update task information and assignments.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-name" className="text-right">
+                Task Name
+              </Label>
+              <Input
+                id="edit-task-name"
+                placeholder="Enter task name"
+                className="col-span-3"
+                value={editTaskData.name}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({ ...prev, name: e.target.value }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-project" className="text-right">
+                Project
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={editTaskData.project}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({
+                    ...prev,
+                    project: e.target.value,
+                  }))
+                }
+              >
+                <option value="">Select a project...</option>
+                {projects.map((project) => (
+                  <option key={project.id} value={project.name}>
+                    {project.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-trade" className="text-right">
+                Trade
+              </Label>
+              <Input
+                id="edit-task-trade"
+                placeholder="e.g., Electrical, Plumbing, etc."
+                className="col-span-3"
+                value={editTaskData.trade}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({
+                    ...prev,
+                    trade: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-due-date" className="text-right">
+                Due Date
+              </Label>
+              <Input
+                id="edit-task-due-date"
+                type="date"
+                className="col-span-3"
+                value={editTaskData.dueDate}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({
+                    ...prev,
+                    dueDate: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-assigned-to" className="text-right">
+                Assign To
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={editTaskData.assignedTo}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({
+                    ...prev,
+                    assignedTo: e.target.value,
+                  }))
+                }
+              >
+                <option value="">Unassigned</option>
+                {memberUsers.map((user) => (
+                  <option key={user.id} value={user.username}>
+                    {user.name} ({user.username})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-status" className="text-right">
+                Status
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={editTaskData.status}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({
+                    ...prev,
+                    status: e.target.value as
+                      | "planned"
+                      | "in-progress"
+                      | "delayed"
+                      | "completed",
+                  }))
+                }
+              >
+                <option value="planned">Planned</option>
+                <option value="in-progress">In Progress</option>
+                <option value="delayed">Delayed</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-progress" className="text-right">
+                Progress %
+              </Label>
+              <Input
+                id="edit-task-progress"
+                type="number"
+                min="0"
+                max="100"
+                className="col-span-3"
+                value={editTaskData.progress}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({
+                    ...prev,
+                    progress: parseInt(e.target.value) || 0,
+                  }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="edit-task-priority" className="text-right">
+                Priority
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={editTaskData.priority}
+                onChange={(e) =>
+                  setEditTaskData((prev) => ({
+                    ...prev,
+                    priority: e.target.value as "high" | "medium" | "low",
+                  }))
+                }
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex justify-end gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setShowEditTaskDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateTask}>Update Task</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
