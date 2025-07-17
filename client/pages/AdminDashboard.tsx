@@ -507,16 +507,53 @@ export default function AdminDashboard() {
               <div className="space-y-2">
                 <h4 className="font-medium">Add New User</h4>
                 <div className="grid gap-2">
-                  <Input placeholder="Full Name" />
-                  <Input placeholder="Username" />
-                  <Input placeholder="Email" type="email" />
-                  <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+                  <Input
+                    placeholder="Full Name"
+                    value={newUserData.name}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
+                    }
+                  />
+                  <Input
+                    placeholder="Username"
+                    value={newUserData.username}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({
+                        ...prev,
+                        username: e.target.value,
+                      }))
+                    }
+                  />
+                  <Input
+                    placeholder="Email"
+                    type="email"
+                    value={newUserData.email}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
+                  />
+                  <select
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    value={newUserData.role}
+                    onChange={(e) =>
+                      setNewUserData((prev) => ({
+                        ...prev,
+                        role: e.target.value,
+                      }))
+                    }
+                  >
                     <option value="member">Member</option>
                     <option value="client">Client</option>
                     <option value="admin">Admin</option>
                   </select>
                 </div>
-                <Button className="w-full">
+                <Button className="w-full" onClick={handleAddUser}>
                   <Plus className="w-4 h-4 mr-2" />
                   Add User
                 </Button>
