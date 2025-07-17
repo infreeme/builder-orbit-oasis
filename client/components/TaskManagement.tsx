@@ -1,0 +1,262 @@
+import React, { useState } from "react";
+import { Plus, Users, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useData } from "@/lib/data-context";
+
+export const TaskManagement: React.FC = () => {
+  const { tasks, addTask, projects, users } = useData();
+  const [showCreateTaskDialog, setShowCreateTaskDialog] = useState(false);
+  const [newTaskData, setNewTaskData] = useState({
+    name: "",
+    project: "",
+    dueDate: "",
+    trade: "",
+    priority: "medium" as "high" | "medium" | "low",
+    assignedTo: "",
+  });
+
+  const handleCreateTask = () => {
+    if (newTaskData.name && newTaskData.project && newTaskData.dueDate) {
+      addTask({
+        name: newTaskData.name,
+        project: newTaskData.project,
+        progress: 0,
+        status: "planned",
+        dueDate: newTaskData.dueDate,
+        trade: newTaskData.trade || "General",
+        priority: newTaskData.priority,
+        assignedTo: newTaskData.assignedTo || undefined,
+      });
+      setShowCreateTaskDialog(false);
+      setNewTaskData({
+        name: "",
+        project: "",
+        dueDate: "",
+        trade: "",
+        priority: "medium",
+        assignedTo: "",
+      });
+    }
+  };
+
+  const memberUsers = users.filter((user) => user.role === "member");
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold">Task Management</h3>
+          <p className="text-sm text-muted-foreground">
+            Create and assign tasks to team members
+          </p>
+        </div>
+        <Button onClick={() => setShowCreateTaskDialog(true)}>
+          <Plus className="w-4 h-4 mr-2" />
+          Create Task
+        </Button>
+      </div>
+
+      {tasks.length === 0 ? (
+        <Card>
+          <CardContent className="p-8 text-center">
+            <Calendar className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+            <h4 className="font-medium mb-2">No tasks created yet</h4>
+            <p className="text-sm text-muted-foreground mb-4">
+              Create your first task to get started with project management.
+            </p>
+            <Button onClick={() => setShowCreateTaskDialog(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Create First Task
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card>
+          <CardHeader>
+            <CardTitle>All Tasks ({tasks.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {tasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="flex items-center justify-between p-4 border rounded-lg"
+                >
+                  <div className="flex-1">
+                    <h4 className="font-medium">{task.name}</h4>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
+                      <span>Project: {task.project}</span>
+                      <span>Trade: {task.trade}</span>
+                      <span>
+                        Due: {new Date(task.dueDate).toLocaleDateString()}
+                      </span>
+                      {task.assignedTo && (
+                        <span className="flex items-center gap-1">
+                          <Users className="w-3 h-3" />
+                          {task.assignedTo}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-medium">{task.progress}%</div>
+                    <div className="text-xs text-muted-foreground capitalize">
+                      {task.status}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Create Task Dialog */}
+      <Dialog
+        open={showCreateTaskDialog}
+        onOpenChange={setShowCreateTaskDialog}
+      >
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Create New Task</DialogTitle>
+            <DialogDescription>
+              Add a new task and assign it to a team member.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-name" className="text-right">
+                Task Name
+              </Label>
+              <Input
+                id="task-name"
+                placeholder="Enter task name"
+                className="col-span-3"
+                value={newTaskData.name}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({ ...prev, name: e.target.value }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-project" className="text-right">
+                Project
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={newTaskData.project}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({
+                    ...prev,
+                    project: e.target.value,
+                  }))
+                }
+              >
+                <option value="">Select a project...</option>
+                {projects.map((project) => (
+                  <option key={project.id} value={project.name}>
+                    {project.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-trade" className="text-right">
+                Trade
+              </Label>
+              <Input
+                id="task-trade"
+                placeholder="e.g., Electrical, Plumbing, etc."
+                className="col-span-3"
+                value={newTaskData.trade}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({ ...prev, trade: e.target.value }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-due-date" className="text-right">
+                Due Date
+              </Label>
+              <Input
+                id="task-due-date"
+                type="date"
+                className="col-span-3"
+                value={newTaskData.dueDate}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({
+                    ...prev,
+                    dueDate: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-assigned-to" className="text-right">
+                Assign To
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={newTaskData.assignedTo}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({
+                    ...prev,
+                    assignedTo: e.target.value,
+                  }))
+                }
+              >
+                <option value="">Unassigned</option>
+                {memberUsers.map((user) => (
+                  <option key={user.id} value={user.username}>
+                    {user.name} ({user.username})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-priority" className="text-right">
+                Priority
+              </Label>
+              <select
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
+                value={newTaskData.priority}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({
+                    ...prev,
+                    priority: e.target.value as "high" | "medium" | "low",
+                  }))
+                }
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex justify-end gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setShowCreateTaskDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleCreateTask}>Create Task</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default TaskManagement;
