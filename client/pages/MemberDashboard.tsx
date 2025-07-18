@@ -284,8 +284,19 @@ export default function MemberDashboard() {
             <h2 className="text-2xl font-bold">My Assigned Tasks</h2>
           </div>
 
-          <div className="space-y-4">
-            {assignedTasks.map((task) => (
+                    <div className="space-y-4">
+            {assignedTasks.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <Calendar className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <h4 className="font-medium mb-2">No tasks available</h4>
+                  <p className="text-sm text-muted-foreground">
+                    No tasks have been created yet. Contact your administrator to create tasks.
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              assignedTasks.map((task) => (
               <Card key={task.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
