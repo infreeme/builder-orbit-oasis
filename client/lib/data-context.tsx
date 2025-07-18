@@ -141,12 +141,17 @@ const initialAdminUser: User = {
   password: "admin123",
 };
 
+// Get current date for realistic sample data
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+const currentMonth = currentDate.getMonth();
+
 // Sample data for demonstration
 const sampleProject: Project = {
   id: "sample-project-1",
   name: "Office Building Construction",
-  startDate: "2024-01-01",
-  endDate: "2024-06-30",
+  startDate: `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-01`,
+  endDate: `${currentYear}-${String(currentMonth + 7).padStart(2, "0")}-30`,
   status: "in-progress",
   progress: 35,
   description: "Modern office building with 20 floors",
@@ -158,8 +163,8 @@ const sampleProject: Project = {
       id: "phase-1",
       name: "Foundation",
       description: "Foundation and underground work",
-      startDate: "2024-01-01",
-      endDate: "2024-02-15",
+      startDate: `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-01`,
+      endDate: `${currentYear}-${String(currentMonth + 3).padStart(2, "0")}-15`,
       color: "#8B5CF6",
       order: 0,
     },
@@ -167,8 +172,8 @@ const sampleProject: Project = {
       id: "phase-2",
       name: "Structure",
       description: "Building structure and framework",
-      startDate: "2024-02-16",
-      endDate: "2024-04-30",
+      startDate: `${currentYear}-${String(currentMonth + 3).padStart(2, "0")}-16`,
+      endDate: `${currentYear}-${String(currentMonth + 5).padStart(2, "0")}-30`,
       color: "#F59E0B",
       order: 1,
     },
@@ -176,8 +181,8 @@ const sampleProject: Project = {
       id: "phase-3",
       name: "Finishing",
       description: "Interior and exterior finishing",
-      startDate: "2024-05-01",
-      endDate: "2024-06-30",
+      startDate: `${currentYear}-${String(currentMonth + 6).padStart(2, "0")}-01`,
+      endDate: `${currentYear}-${String(currentMonth + 7).padStart(2, "0")}-30`,
       color: "#10B981",
       order: 2,
     },
