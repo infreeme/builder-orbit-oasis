@@ -150,6 +150,12 @@ export default function MemberDashboard() {
     updateMedia(mediaId, updates);
   };
 
+  const handleDeleteMedia = (mediaId: string) => {
+    if (confirm("Are you sure you want to delete this media file?")) {
+      deleteMedia(mediaId);
+    }
+  };
+
   // Filter tasks assigned to current user
   const assignedTasks = tasks.filter(
     (task) => task.assignedTo === user?.username,
