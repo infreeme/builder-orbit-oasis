@@ -81,6 +81,8 @@ export const TaskManagement: React.FC = () => {
     setEditTaskData({
       name: task.name,
       project: task.project,
+      startDate: task.startDate || task.dueDate,
+      endDate: task.endDate || task.dueDate,
       dueDate: task.dueDate,
       trade: task.trade,
       priority: task.priority,
