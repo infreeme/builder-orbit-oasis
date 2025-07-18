@@ -87,8 +87,11 @@ export default function AdminDashboard() {
 
   const handleViewProjectDetails = (projectId: string) => {
     console.log("View project details:", projectId);
-    // Navigate to project details page
-    navigate(`/project/${projectId}`);
+    // TODO: Implement project details dialog or route
+    // For now, just show an alert to prevent crashes
+    alert(
+      `Project details for: ${projectId}\nThis feature will be implemented soon.`,
+    );
   };
 
   const handleViewAnalytics = () => {
