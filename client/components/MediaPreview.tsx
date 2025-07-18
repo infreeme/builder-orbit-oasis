@@ -36,6 +36,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
 }) => {
   const [editingMedia, setEditingMedia] = useState<MediaFile | null>(null);
   const [editForm, setEditForm] = useState({ name: "", description: "" });
+  const [viewingMedia, setViewingMedia] = useState<MediaFile | null>(null);
 
   const handleEdit = (mediaFile: MediaFile) => {
     setEditingMedia(mediaFile);
