@@ -209,6 +209,9 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
       id: Date.now().toString(),
       media: [],
       progressComments: [],
+      // If dueDate is provided but startDate/endDate are not, use dueDate as endDate
+      startDate: taskData.startDate || taskData.dueDate,
+      endDate: taskData.endDate || taskData.dueDate,
     };
     setTasks((prev) => [...prev, newTask]);
   };
