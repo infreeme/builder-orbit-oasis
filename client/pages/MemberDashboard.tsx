@@ -135,6 +135,13 @@ export default function MemberDashboard() {
     setTimeTrackingData({ startTime: "", endTime: "", description: "" });
   };
 
+  const handleEditMedia = (
+    mediaId: string,
+    updates: { name?: string; description?: string },
+  ) => {
+    updateMedia(mediaId, updates);
+  };
+
   // Filter tasks assigned to current user
   const assignedTasks = tasks.filter(
     (task) => task.assignedTo === user?.username,
