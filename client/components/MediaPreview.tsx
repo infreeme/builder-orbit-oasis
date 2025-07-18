@@ -19,7 +19,10 @@ interface MediaPreviewProps {
 export const MediaPreview: React.FC<MediaPreviewProps> = ({
   media,
   onDelete,
+  onEdit,
   showDelete = false,
+  showEdit = false,
+  currentUserId,
 }) => {
   if (media.length === 0) {
     return (
