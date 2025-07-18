@@ -104,10 +104,21 @@ export default function MemberDashboard() {
   };
 
   const handleSubmitProgress = () => {
-    if (selectedTask) {
-      updateTask(selectedTask, {
-        progress: progressValue[0],
-      });
+    if (selectedTask && user) {
+      // Use the new updateTaskProgress function if there are notes, otherwise use updateTask
+      if (progressNotes.trim()) {
+        updateTaskProgress(
+          selectedTask,
+          progressValue[0],
+          progressNotes.trim(),
+          user.id,
+          user.name,
+        );
+      } else {
+        updateTask(selectedTask, {
+          progress: progressValue[0],
+        });
+      }
       setShowProgressDialog(false);
       setProgressNotes("");
       setProgressValue([0]);
