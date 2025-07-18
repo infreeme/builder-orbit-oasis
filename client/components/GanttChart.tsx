@@ -228,8 +228,8 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                   const position = getTaskPosition(task);
                   return (
                     <div key={task.id} className="flex">
-                      {/* Task info */}
-                      <div className="w-80 p-3 border-r">
+                                            {/* Task info */}
+                      <div className="w-80 p-3 border-r flex-shrink-0">
                         <div className="space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium">
