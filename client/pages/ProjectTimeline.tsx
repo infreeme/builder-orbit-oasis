@@ -431,6 +431,16 @@ export default function ProjectTimeline() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Task Detail Popup */}
+        <TaskDetailPopup
+          task={selectedTask}
+          open={showTaskPopup}
+          onClose={() => {
+            setShowTaskPopup(false);
+            setSelectedTask(null);
+          }}
+        />
       </div>
     </div>
   );
