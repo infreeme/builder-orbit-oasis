@@ -310,14 +310,11 @@ export default function MemberDashboard() {
                           Due: {new Date(task.dueDate).toLocaleDateString()}
                         </p>
                         <div className="flex gap-2">
-                          <Button
+                          <TaskMediaUpload
+                            taskId={task.id}
+                            taskName={task.name}
                             size="sm"
-                            variant="outline"
-                            onClick={() => handleUploadMedia(task.id)}
-                          >
-                            <Upload className="w-4 h-4 mr-2" />
-                            Upload Media
-                          </Button>
+                          />
                           <Button
                             size="sm"
                             variant="outline"
