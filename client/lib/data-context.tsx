@@ -88,9 +88,16 @@ interface DataContextType {
 
   // Tasks
   tasks: Task[];
-  addTask: (task: Omit<Task, "id" | "media">) => void;
+  addTask: (task: Omit<Task, "id" | "media" | "progressComments">) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
+  updateTaskProgress: (
+    taskId: string,
+    newProgress: number,
+    comment: string,
+    userId: string,
+    userName: string,
+  ) => void;
 
   // Media
   media: MediaFile[];
