@@ -268,10 +268,6 @@ export default function MemberDashboard() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold">My Assigned Tasks</h2>
-            <Button onClick={() => handleUploadMedia()}>
-              <Camera className="w-4 h-4 mr-2" />
-              Upload Photo
-            </Button>
           </div>
 
           <div className="space-y-4">
@@ -351,7 +347,7 @@ export default function MemberDashboard() {
         </div>
 
         {/* Recent Activity */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="mb-8">
           {/* Recent Uploads */}
           <Card>
             <CardHeader>
@@ -362,66 +358,38 @@ export default function MemberDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {recentUploads.map((upload) => (
-                  <div
-                    key={upload.id}
-                    className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-                  >
-                    <div>
-                      <p className="font-medium">{upload.fileName}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {upload.taskName}
-                      </p>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(upload.uploadedAt).toLocaleDateString()}
-                    </p>
+                {recentUploads.length === 0 ? (
+                  <div className="text-center py-4 text-muted-foreground text-sm">
+                    No media uploads yet
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <Button
-                  variant="outline"
-                  className="h-auto p-6 flex-col gap-3"
-                  onClick={() => handleUploadMedia()}
-                >
-                  <Camera className="w-8 h-8 text-info" />
-                  <span>Upload Photo</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  className="h-auto p-6 flex-col gap-3"
-                  onClick={() => handleUpdateProgress()}
-                >
-                  <CheckCircle className="w-8 h-8 text-success" />
-                  <span>Update Progress</span>
-                </Button>
-                <Link to="/timeline/1">
-                  <Button
-                    variant="outline"
-                    className="h-auto p-6 flex-col gap-3"
-                  >
-                    <Calendar className="w-8 h-8 text-primary" />
-                    <span>View Timeline</span>
-                  </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  className="h-auto p-6 flex-col gap-3"
-                  onClick={handleTimeTracking}
-                >
-                  <Clock className="w-8 h-8 text-warning" />
-                  <span>Time Tracking</span>
-                </Button>
+                ) : (
+                  recentUploads.map((upload) => (
+                    <div
+                      key={upload.id}
+                      className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                    >
+                      <div>
+                        <p className="font-medium">{upload.fileName}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {upload.taskName}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(upload.uploadedAt).toLocaleDateString()}
+                        </p>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleDeleteMedia(upload.id)}
+                          className="text-destructive hover:text-destructive h-8 w-8 p-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </CardContent>
           </Card>
