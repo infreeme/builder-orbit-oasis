@@ -23,6 +23,8 @@ export const TaskManagement: React.FC = () => {
   const [newTaskData, setNewTaskData] = useState({
     name: "",
     project: "",
+    startDate: "",
+    endDate: "",
     dueDate: "",
     trade: "",
     priority: "medium" as "high" | "medium" | "low",
