@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/data-context";
 import GanttChart from "@/components/GanttChart";
+import TaskDetailPopup from "@/components/TaskDetailPopup";
 
 export default function ProjectTimeline() {
   const { user } = useAuth();
