@@ -58,7 +58,6 @@ export const TaskManagement: React.FC = () => {
         dueDate: "",
         trade: "",
         priority: "medium",
-        assignedTo: "",
         phaseId: "",
       });
     }
