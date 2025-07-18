@@ -71,7 +71,6 @@ export const TaskManagement: React.FC = () => {
       dueDate: task.dueDate,
       trade: task.trade,
       priority: task.priority,
-      assignedTo: task.assignedTo || "",
       status: task.status,
       progress: task.progress,
       phaseId: task.phaseId || "",
