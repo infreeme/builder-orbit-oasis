@@ -69,6 +69,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
   userRole,
   onTaskClick,
   onPhaseToggle,
+  scrollRef,
 }) => {
   const [hoveredTask, setHoveredTask] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
