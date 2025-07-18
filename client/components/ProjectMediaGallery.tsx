@@ -331,135 +331,170 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
     }
   };
 
-    return (
+  return (
     <>
       <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[1000px] max-h-[90vh]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <FileImage className="w-5 h-5" />
-            {projectName} - Media Gallery
-          </DialogTitle>
-          <DialogDescription>
-            All media files uploaded for this project, organized by{" "}
-            {organizationMode === "task"
-              ? "task"
-              : organizationMode === "date"
-                ? "date"
-                : "days"}
-          </DialogDescription>
-        </DialogHeader>
+        <DialogContent className="sm:max-w-[1000px] max-h-[90vh]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <FileImage className="w-5 h-5" />
+              {projectName} - Media Gallery
+            </DialogTitle>
+            <DialogDescription>
+              All media files uploaded for this project, organized by{" "}
+              {organizationMode === "task"
+                ? "task"
+                : organizationMode === "date"
+                  ? "date"
+                  : "days"}
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Controls */}
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="relative flex-1 min-w-[200px]">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                placeholder="Search media files..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-muted-foreground" />
-              <select
-                className="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                value={filterType}
-                onChange={(e) =>
-                  setFilterType(e.target.value as "all" | "image" | "video")
-                }
-              >
-                <option value="all">All Media</option>
-                <option value="image">Images Only</option>
-                <option value="video">Videos Only</option>
-              </select>
-            </div>
-            <div className="flex items-center gap-2">
-              <Folder className="w-4 h-4 text-muted-foreground" />
-              <select
-                className="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                value={organizationMode}
-                onChange={(e) =>
-                  setOrganizationMode(
-                    e.target.value as "task" | "date" | "days",
-                  )
-                }
-              >
-                <option value="task">By Task</option>
-                <option value="date">By Date</option>
-                <option value="days">By Days</option>
-              </select>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant={viewMode === "grid" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode("grid")}
-              >
-                <Grid className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === "list" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode("list")}
-              >
-                <List className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Media Content */}
-          <ScrollArea className="h-[60vh] w-full">
-            {filteredMedia.length === 0 ? (
-              <Card>
-                <CardContent className="p-12 text-center">
-                  <FileImage className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-xl font-semibold mb-2">
-                    {projectMedia.length === 0
-                      ? "No Media Files"
-                      : "No Results Found"}
-                  </h3>
-                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                    {projectMedia.length === 0
-                      ? "No images or videos have been uploaded for this project yet."
-                      : "Try adjusting your search terms or filters to find the media you're looking for."}
-                  </p>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-6">
-                {Object.entries(organizedMedia).map(([groupName, files]) => (
-                  <div key={groupName}>
-                    <div className="flex items-center gap-3 mb-4 pb-2 border-b">
-                      {organizationMode === "task" ? (
-                        <Folder className="w-5 h-5 text-primary" />
-                      ) : (
-                        <Calendar className="w-5 h-5 text-primary" />
-                      )}
-                      <h4 className="text-lg font-semibold">{groupName}</h4>
-                      <Badge variant="outline">{files.length} files</Badge>
-                    </div>
-                    <div
-                      className={
-                        viewMode === "grid"
-                          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-                          : "space-y-3"
-                      }
-                    >
-                      {files.map((mediaFile) =>
-                        renderMediaItem(mediaFile, organizationMode !== "task"),
-                      )}
-                    </div>
-                  </div>
-                ))}
+          <div className="space-y-4">
+            {/* Controls */}
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="relative flex-1 min-w-[200px]">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search media files..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
               </div>
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4 text-muted-foreground" />
+                <select
+                  className="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={filterType}
+                  onChange={(e) =>
+                    setFilterType(e.target.value as "all" | "image" | "video")
+                  }
+                >
+                  <option value="all">All Media</option>
+                  <option value="image">Images Only</option>
+                  <option value="video">Videos Only</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <Folder className="w-4 h-4 text-muted-foreground" />
+                <select
+                  className="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  value={organizationMode}
+                  onChange={(e) =>
+                    setOrganizationMode(
+                      e.target.value as "task" | "date" | "days",
+                    )
+                  }
+                >
+                  <option value="task">By Task</option>
+                  <option value="date">By Date</option>
+                  <option value="days">By Days</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant={viewMode === "grid" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setViewMode("grid")}
+                >
+                  <Grid className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "list" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setViewMode("list")}
+                >
+                  <List className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Media Content */}
+            <ScrollArea className="h-[60vh] w-full">
+              {filteredMedia.length === 0 ? (
+                <Card>
+                  <CardContent className="p-12 text-center">
+                    <FileImage className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-xl font-semibold mb-2">
+                      {projectMedia.length === 0
+                        ? "No Media Files"
+                        : "No Results Found"}
+                    </h3>
+                    <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                      {projectMedia.length === 0
+                        ? "No images or videos have been uploaded for this project yet."
+                        : "Try adjusting your search terms or filters to find the media you're looking for."}
+                    </p>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="space-y-6">
+                  {Object.entries(organizedMedia).map(([groupName, files]) => (
+                    <div key={groupName}>
+                      <div className="flex items-center gap-3 mb-4 pb-2 border-b">
+                        {organizationMode === "task" ? (
+                          <Folder className="w-5 h-5 text-primary" />
+                        ) : (
+                          <Calendar className="w-5 h-5 text-primary" />
+                        )}
+                        <h4 className="text-lg font-semibold">{groupName}</h4>
+                        <Badge variant="outline">{files.length} files</Badge>
+                      </div>
+                      <div
+                        className={
+                          viewMode === "grid"
+                            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+                            : "space-y-3"
+                        }
+                      >
+                        {files.map((mediaFile) =>
+                          renderMediaItem(
+                            mediaFile,
+                            organizationMode !== "task",
+                          ),
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Fullscreen Image Viewer */}
+      <Dialog open={!!viewingMedia} onOpenChange={() => setViewingMedia(null)}>
+        <DialogContent className="max-w-7xl max-h-[95vh] p-0 border-0">
+          <div className="relative bg-black rounded-lg overflow-hidden">
+            {viewingMedia && (
+              <>
+                <img
+                  src={viewingMedia.url}
+                  alt={viewingMedia.name}
+                  className="w-full h-full max-h-[90vh] object-contain"
+                />
+                <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg">
+                  <p className="font-medium">{viewingMedia.name}</p>
+                  <p className="text-sm opacity-90">
+                    Uploaded by {viewingMedia.uploadedBy}
+                  </p>
+                </div>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setViewingMedia(null)}
+                  className="absolute top-4 right-4"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </>
             )}
-          </ScrollArea>
-        </div>
-      </DialogContent>
-    </Dialog>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
