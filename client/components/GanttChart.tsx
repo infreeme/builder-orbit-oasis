@@ -184,7 +184,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
             <div key={phase.id} className="border-b last:border-b-0">
               {/* Phase header */}
               <div className="flex">
-                <div className="w-80 p-3 border-r bg-muted/20">
+                                <div className="w-80 p-3 border-r bg-muted/20 flex-shrink-0">
                   <Button
                     variant="ghost"
                     size="sm"
