@@ -88,6 +88,7 @@ export default function ProjectTimeline() {
         endDate: new Date(task.dueDate),
         mediaCount: taskMedia.length,
         media: taskMedia,
+        progressComments: task.progressComments || [],
         milestones: [], // Can be expanded later
         dependencies: [],
       });
