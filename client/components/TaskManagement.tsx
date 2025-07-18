@@ -106,8 +106,6 @@ export const TaskManagement: React.FC = () => {
     }
   };
 
-  const memberUsers = users.filter((user) => user.role === "member");
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
