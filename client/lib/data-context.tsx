@@ -102,6 +102,7 @@ interface DataContextType {
   // Media
   media: MediaFile[];
   addMedia: (media: Omit<MediaFile, "id" | "uploadedAt">) => void;
+  updateMedia: (id: string, updates: Partial<MediaFile>) => void;
   deleteMedia: (id: string) => void;
 
   // Phases
