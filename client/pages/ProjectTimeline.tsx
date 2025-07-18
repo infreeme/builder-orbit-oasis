@@ -382,22 +382,46 @@ export default function ProjectTimeline() {
             </CardContent>
           </Card>
         ) : (
-          <div
-            style={{
-              transform: `scale(${zoomLevel})`,
-              transformOrigin: "top left",
-            }}
-          >
-            <GanttChart
-              key={`gantt-${tasks.length}-${tasks.reduce((sum, t) => sum + t.progress, 0)}`}
-              phases={phases as any}
-              startDate={new Date(currentProject.startDate)}
-              endDate={new Date(currentProject.endDate)}
-              userRole={user?.role as "admin" | "member" | "client"}
-              onTaskClick={handleTaskClick}
-              onPhaseToggle={handlePhaseToggle}
-              scrollRef={scrollContainerRef}
-            />
+          <div className="flex gap-4">
+            {/* Timeline Chart */}
+            <div
+              className="flex-1"
+              style={{
+                transform: `scale(${zoomLevel})`,
+                transformOrigin: "top left",
+              }}
+            >
+              <GanttChart
+                key={`gantt-${tasks.length}-${tasks.reduce((sum, t) => sum + t.progress, 0)}`}
+                phases={phases as any}
+                startDate={new Date(currentProject.startDate)}
+                endDate={new Date(currentProject.endDate)}
+                userRole={user?.role as "admin" | "member" | "client"}
+                onTaskClick={handleTaskClick}
+                onPhaseToggle={handlePhaseToggle}
+                scrollRef={scrollContainerRef}
+              />
+            </div>
+
+            {/* Timeline Controls */}
+            <div className="flex flex-col gap-2 mt-16">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleScrollLeft}
+                className="h-10 w-10 p-0"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleScrollRight}
+                className="h-10 w-10 p-0"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         )}
 
