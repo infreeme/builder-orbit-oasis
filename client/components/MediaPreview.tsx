@@ -1,5 +1,5 @@
-import React from "react";
-import { X, Download, FileImage, Video } from "lucide-react";
+import React, { useState } from "react";
+import { X, Download, FileImage, Video, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { MediaFile } from "@/lib/data-context";
