@@ -179,8 +179,12 @@ export default function ProjectTimeline() {
   };
 
   const handleTaskClick = (task: any) => {
-    console.log("Task clicked:", task);
-    // Here you would implement task detail modal or navigation
+    // Find the full task object with progress comments
+    const fullTask = tasks.find((t) => t.id === task.id);
+    if (fullTask) {
+      setSelectedTask(fullTask);
+      setShowTaskPopup(true);
+    }
   };
 
   // Calculate project stats
