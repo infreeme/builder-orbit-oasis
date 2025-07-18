@@ -306,6 +306,40 @@ export const TaskManagement: React.FC = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-start-date" className="text-right">
+                Start Date
+              </Label>
+              <Input
+                id="task-start-date"
+                type="date"
+                className="col-span-3"
+                value={newTaskData.startDate}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({
+                    ...prev,
+                    startDate: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="task-end-date" className="text-right">
+                End Date
+              </Label>
+              <Input
+                id="task-end-date"
+                type="date"
+                className="col-span-3"
+                value={newTaskData.endDate}
+                onChange={(e) =>
+                  setNewTaskData((prev) => ({
+                    ...prev,
+                    endDate: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="task-due-date" className="text-right">
                 Due Date
               </Label>
