@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useData } from "@/lib/data-context";
+import TaskMediaUpload from "./TaskMediaUpload";
 
 export const TaskManagement: React.FC = () => {
   const { tasks, addTask, updateTask, deleteTask, projects, users } = useData();
