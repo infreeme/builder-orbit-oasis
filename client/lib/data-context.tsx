@@ -278,6 +278,24 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     );
   };
 
+  const updateMedia = (id: string, updates: Partial<MediaFile>) => {
+    setMedia((prev) =>
+      prev.map((mediaFile) =>
+        mediaFile.id === id ? { ...mediaFile, ...updates } : mediaFile,
+      ),
+    );
+
+    // Update task media as well
+    setTasks((prev) =>
+      prev.map((task) => ({
+        ...task,
+        media: task.media.map((mediaFile) =>
+          mediaFile.id === id ? { ...mediaFile, ...updates } : mediaFile,
+        ),
+      })),
+    );
+  };
+
   const deleteMedia = (id: string) => {
     const mediaFile = media.find((m) => m.id === id);
     if (mediaFile) {
