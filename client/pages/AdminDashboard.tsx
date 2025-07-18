@@ -201,6 +201,21 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteProject = () => {
+    if (selectedProjectForDeletion) {
+      const project = projects.find((p) => p.id === selectedProjectForDeletion);
+      if (
+        project &&
+        confirm(
+          `Are you sure you want to delete the project "${project.name}"? This action cannot be undone.`,
+        )
+      ) {
+        deleteProject(selectedProjectForDeletion);
+        setSelectedProjectForDeletion("");
+      }
+    }
+  };
+
   // Projects now come from data context
 
   const stats = {
