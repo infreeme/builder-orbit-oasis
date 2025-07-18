@@ -53,8 +53,8 @@ export default function ProjectTimeline() {
 
               return {
                 ...task,
-                startDate: new Date(task.dueDate),
-                endDate: new Date(task.dueDate),
+                startDate: new Date(task.startDate || task.dueDate),
+                endDate: new Date(task.endDate || task.dueDate),
                 mediaCount: taskMedia.length,
                 media: taskMedia,
                 progressComments: task.progressComments || [],
