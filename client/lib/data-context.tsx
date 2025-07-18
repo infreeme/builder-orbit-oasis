@@ -379,6 +379,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         addTask,
         updateTask,
         deleteTask,
+        updateTaskProgress,
         media,
         addMedia,
         deleteMedia,
