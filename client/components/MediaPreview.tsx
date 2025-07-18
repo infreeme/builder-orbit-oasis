@@ -246,6 +246,37 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Fullscreen Image Viewer */}
+      <Dialog open={!!viewingMedia} onOpenChange={() => setViewingMedia(null)}>
+        <DialogContent className="max-w-7xl max-h-[95vh] p-0 border-0">
+          <div className="relative bg-black rounded-lg overflow-hidden">
+            {viewingMedia && (
+              <>
+                <img
+                  src={viewingMedia.url}
+                  alt={viewingMedia.name}
+                  className="w-full h-full max-h-[90vh] object-contain"
+                />
+                <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg">
+                  <p className="font-medium">{viewingMedia.name}</p>
+                  <p className="text-sm opacity-90">
+                    Uploaded by {viewingMedia.uploadedBy}
+                  </p>
+                </div>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setViewingMedia(null)}
+                  className="absolute top-4 right-4"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
