@@ -113,6 +113,8 @@ export default function ProjectTimeline() {
 
   const [phases, setPhases] = useState<any[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [showTaskPopup, setShowTaskPopup] = useState(false);
 
   // Update phases when tasks or projects change
   React.useEffect(() => {
