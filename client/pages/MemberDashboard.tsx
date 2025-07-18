@@ -405,6 +405,9 @@ export default function MemberDashboard() {
           </Card>
         </div>
 
+        {/* Progress Update Section */}
+        <ProgressUpdate />
+
         {/* Upload Media Dialog */}
         <Dialog open={showUploadDialog} onOpenChange={setShowUploadDialog}>
           <DialogContent className="sm:max-w-[500px]">
