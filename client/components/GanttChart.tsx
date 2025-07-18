@@ -156,7 +156,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
           </div>
 
           {/* Date header */}
-          <ScrollArea className="flex-1">
+          <ScrollArea className="flex-1" ref={scrollRef}>
             <div className="flex" style={{ width: chartWidth }}>
               {dateGrid.map((date, index) => (
                 <div
