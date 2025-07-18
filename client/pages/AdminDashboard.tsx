@@ -58,6 +58,8 @@ export default function AdminDashboard() {
   });
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
+  const [selectedProjectForDeletion, setSelectedProjectForDeletion] =
+    useState("");
 
   const handleLogout = () => {
     logout();
