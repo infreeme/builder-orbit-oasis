@@ -33,6 +33,17 @@ export interface User {
   assignedProjects?: string[];
 }
 
+export interface ProgressComment {
+  id: string;
+  taskId: string;
+  userId: string;
+  userName: string;
+  comment: string;
+  previousProgress: number;
+  newProgress: number;
+  timestamp: string;
+}
+
 export interface Task {
   id: string;
   name: string;
@@ -45,6 +56,7 @@ export interface Task {
   assignedTo?: string;
   media: MediaFile[];
   phaseId?: string;
+  progressComments: ProgressComment[];
 }
 
 export interface MediaFile {
