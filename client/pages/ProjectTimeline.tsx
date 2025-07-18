@@ -120,7 +120,9 @@ export default function ProjectTimeline() {
 
   // Update phases when tasks, projects, or media change
   React.useEffect(() => {
-    setPhases(createPhasesFromTasks());
+    const newPhases = createPhasesFromTasks();
+    console.log("Timeline phases updated:", newPhases);
+    setPhases(newPhases);
   }, [tasks, projects, currentProject, media]);
   const [searchTerm, setSearchTerm] = useState("");
   const [zoomLevel, setZoomLevel] = useState(1);
