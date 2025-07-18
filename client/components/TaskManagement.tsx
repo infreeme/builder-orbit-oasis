@@ -168,6 +168,12 @@ export const TaskManagement: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
+                      <TaskMediaUpload
+                        taskId={task.id}
+                        taskName={task.name}
+                        variant="icon"
+                        size="sm"
+                      />
                       <Button
                         size="sm"
                         variant="outline"
