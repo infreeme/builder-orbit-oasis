@@ -129,6 +129,18 @@ export default function ProjectTimeline() {
     setZoomLevel((prev) => Math.max(prev - 0.2, 0.5));
   };
 
+  const handleScrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const handleScrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
+
   const handleExport = () => {
     // Create export data
     const exportData = {
