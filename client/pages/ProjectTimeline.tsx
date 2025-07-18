@@ -396,6 +396,7 @@ export default function ProjectTimeline() {
             }}
           >
             <GanttChart
+              key={`gantt-${tasks.length}-${tasks.reduce((sum, t) => sum + t.progress, 0)}`}
               phases={phases as any}
               startDate={new Date(currentProject.startDate)}
               endDate={new Date(currentProject.endDate)}
