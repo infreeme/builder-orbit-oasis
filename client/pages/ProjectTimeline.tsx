@@ -382,10 +382,9 @@ export default function ProjectTimeline() {
             </CardContent>
           </Card>
         ) : (
-          <div className="flex gap-4">
+          <div className="space-y-4">
             {/* Timeline Chart */}
             <div
-              className="flex-1"
               style={{
                 transform: `scale(${zoomLevel})`,
                 transformOrigin: "top left",
@@ -403,23 +402,28 @@ export default function ProjectTimeline() {
               />
             </div>
 
-            {/* Timeline Controls */}
-            <div className="flex flex-col gap-2 mt-16">
+            {/* Timeline Controls - Below Chart */}
+            <div className="flex items-center justify-center gap-4 py-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleScrollLeft}
-                className="h-10 w-10 p-0"
+                className="h-8"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4 mr-2" />
+                Previous Days
               </Button>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span>Scroll Timeline</span>
+              </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleScrollRight}
-                className="h-10 w-10 p-0"
+                className="h-8"
               >
-                <ChevronRight className="w-4 h-4" />
+                Next Days
+                <ChevronRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
