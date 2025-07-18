@@ -401,6 +401,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         updateTaskProgress,
         media,
         addMedia,
+        updateMedia,
         deleteMedia,
         getUserByUsername,
         addPhase,
