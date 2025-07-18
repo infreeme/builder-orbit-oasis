@@ -331,8 +331,9 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={onClose}>
+    return (
+    <>
+      <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[1000px] max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
