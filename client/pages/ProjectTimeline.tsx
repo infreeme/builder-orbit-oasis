@@ -27,34 +27,70 @@ export default function ProjectTimeline() {
   // Get project data from context - use first project or null if none exist
   const currentProject = projects.length > 0 ? projects[0] : null;
 
-  // Create phases from real tasks data grouped by trade
+  // Create phases from real project phases data
   const createPhasesFromTasks = () => {
-    if (!currentProject || tasks.length === 0) return [];
+    if (!currentProject) return [];
 
-    // Group tasks by trade to create phases
-    const tasksByTrade = tasks
-      .filter((task) => task.project === currentProject.name)
-      .reduce((acc: any, task) => {
-        const trade = task.trade || "General";
-        if (!acc[trade]) {
-          acc[trade] = [];
-        }
-        // Get media files for this task
-        const taskMedia = media.filter((m) => m.taskId === task.id);
+    // Get project tasks
+    const projectTasks = tasks.filter(
+      (task) => task.project === currentProject.name,
+    );
 
-        acc[trade].push({
-          ...task,
-          startDate: new Date(task.dueDate),
-          endDate: new Date(task.dueDate),
-          mediaCount: taskMedia.length,
-          media: taskMedia,
-          milestones: [], // Can be expanded later
-          dependencies: [],
+    // If project has defined phases, use them
+    if (currentProject.phases && currentProject.phases.length > 0) {
+      return currentProject.phases
+        .sort((a, b) => a.order - b.order)
+        .map((phase) => {
+          // Get tasks assigned to this phase
+          const phaseTasks = projectTasks
+            .filter((task) => task.phaseId === phase.id)
+            .map((task) => {
+              // Get media files for this task
+              const taskMedia = media.filter((m) => m.taskId === task.id);
+
+              return {
+                ...task,
+                startDate: new Date(task.dueDate),
+                endDate: new Date(task.dueDate),
+                mediaCount: taskMedia.length,
+                media: taskMedia,
+                milestones: [], // Can be expanded later
+                dependencies: [],
+              };
+            });
+
+          return {
+            id: phase.id,
+            name: phase.name,
+            color: phase.color,
+            collapsed: false,
+            tasks: phaseTasks,
+          };
         });
-        return acc;
-      }, {});
+    }
 
-    // Convert to phases format
+    // Fallback: Group tasks by trade if no phases defined
+    const tasksByTrade = projectTasks.reduce((acc: any, task) => {
+      const trade = task.trade || "General";
+      if (!acc[trade]) {
+        acc[trade] = [];
+      }
+      // Get media files for this task
+      const taskMedia = media.filter((m) => m.taskId === task.id);
+
+      acc[trade].push({
+        ...task,
+        startDate: new Date(task.dueDate),
+        endDate: new Date(task.dueDate),
+        mediaCount: taskMedia.length,
+        media: taskMedia,
+        milestones: [], // Can be expanded later
+        dependencies: [],
+      });
+      return acc;
+    }, {});
+
+    // Convert to phases format with default colors
     const tradeColors = [
       "#8B5CF6",
       "#F59E0B",
