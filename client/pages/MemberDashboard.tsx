@@ -87,8 +87,11 @@ export default function MemberDashboard() {
 
   const handleViewTaskDetails = (taskId: string) => {
     console.log("View task details:", taskId);
-    // Navigate to task details or open details dialog
-    navigate(`/task/${taskId}`);
+    // TODO: Implement task details dialog or route
+    // For now, just show an alert to prevent crashes
+    alert(
+      `Task details for: ${taskId}\nThis feature will be implemented soon.`,
+    );
   };
 
   const handleSubmitUpload = () => {
