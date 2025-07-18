@@ -266,6 +266,9 @@ export default function ClientDashboard() {
         {/* Media Gallery Section */}
         <MediaGallery />
 
+        {/* Progress Comments Section */}
+        <ProgressComments projectName={assignedProjects[0]?.name} />
+
         {/* Bottom Grid */}
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Upcoming Milestones */}
