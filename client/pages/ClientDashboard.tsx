@@ -18,6 +18,7 @@ import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/data-context";
 import MediaGallery from "@/components/MediaGallery";
+import ProgressComments from "@/components/ProgressComments";
 
 export default function ClientDashboard() {
   const { user, logout } = useAuth();
