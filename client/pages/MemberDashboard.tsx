@@ -33,8 +33,14 @@ import TaskMediaUpload from "@/components/TaskMediaUpload";
 
 export default function MemberDashboard() {
   const { user, logout } = useAuth();
-  const { tasks, updateTask, addMedia, updateTaskProgress, updateMedia } =
-    useData();
+  const {
+    tasks,
+    updateTask,
+    addMedia,
+    updateTaskProgress,
+    updateMedia,
+    deleteMedia,
+  } = useData();
   const navigate = useNavigate();
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showProgressDialog, setShowProgressDialog] = useState(false);
