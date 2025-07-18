@@ -346,7 +346,9 @@ export default function MemberDashboard() {
                           <MediaPreview
                             media={task.media}
                             onEdit={handleEditMedia}
+                            onDelete={handleDeleteMedia}
                             showEdit={true}
+                            showDelete={true}
                             currentUserId={user?.username}
                           />
                         </div>
