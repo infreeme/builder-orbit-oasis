@@ -413,8 +413,9 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                 })}
             </div>
           ))}
+                  </div>
         </div>
-      </ScrollArea>
+      </div>
     </div>
   );
 };
