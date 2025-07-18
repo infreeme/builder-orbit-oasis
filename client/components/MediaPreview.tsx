@@ -34,6 +34,25 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
   showEdit = false,
   currentUserId,
 }) => {
+  const [editingMedia, setEditingMedia] = useState<MediaFile | null>(null);
+  const [editForm, setEditForm] = useState({ name: "", description: "" });
+
+  const handleEdit = (mediaFile: MediaFile) => {
+    setEditingMedia(mediaFile);
+    setEditForm({
+      name: mediaFile.name,
+      description: mediaFile.description || "",
+    });
+  };
+
+  const handleSaveEdit = () => {
+    if (editingMedia && onEdit) {
+      onEdit(editingMedia.id, editForm);
+      setEditingMedia(null);
+      setEditForm({ name: "", description: "" });
+    }
+  };
+
   if (media.length === 0) {
     return (
       <div className="text-center py-4 text-muted-foreground text-sm">
