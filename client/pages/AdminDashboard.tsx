@@ -35,7 +35,8 @@ import PhaseManagement from "@/components/PhaseManagement";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
-  const { projects, addProject, updateProject, users, tasks } = useData();
+  const { projects, addProject, updateProject, deleteProject, users, tasks } =
+    useData();
   const navigate = useNavigate();
   const [showNewProjectDialog, setShowNewProjectDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
