@@ -136,13 +136,25 @@ export default function ProjectTimeline() {
 
   const handleScrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -200, behavior: "smooth" });
+      // ScrollArea contains a viewport element that is the actual scrollable container
+      const viewport = scrollContainerRef.current.querySelector(
+        "[data-radix-scroll-area-viewport]",
+      );
+      if (viewport) {
+        viewport.scrollBy({ left: -200, behavior: "smooth" });
+      }
     }
   };
 
   const handleScrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 200, behavior: "smooth" });
+      // ScrollArea contains a viewport element that is the actual scrollable container
+      const viewport = scrollContainerRef.current.querySelector(
+        "[data-radix-scroll-area-viewport]",
+      );
+      if (viewport) {
+        viewport.scrollBy({ left: 200, behavior: "smooth" });
+      }
     }
   };
 
