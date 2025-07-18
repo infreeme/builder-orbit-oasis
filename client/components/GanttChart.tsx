@@ -72,7 +72,6 @@ export const GanttChart: React.FC<GanttChartProps> = ({
   scrollRef,
 }) => {
   const [hoveredTask, setHoveredTask] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   // Calculate time span and grid
   const totalDays = Math.ceil(
