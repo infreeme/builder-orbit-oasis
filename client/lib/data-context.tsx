@@ -220,6 +220,44 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
   };
 
+  const updateTaskProgress = (
+    taskId: string,
+    newProgress: number,
+    comment: string,
+    userId: string,
+    userName: string,
+  ) => {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id === taskId) {
+          const progressComment: ProgressComment = {
+            id: Date.now().toString(),
+            taskId,
+            userId,
+            userName,
+            comment,
+            previousProgress: task.progress,
+            newProgress,
+            timestamp: new Date().toISOString(),
+          };
+
+          return {
+            ...task,
+            progress: newProgress,
+            progressComments: [...task.progressComments, progressComment],
+            status:
+              newProgress === 100
+                ? "completed"
+                : newProgress > 0
+                  ? "in-progress"
+                  : "planned",
+          };
+        }
+        return task;
+      }),
+    );
+  };
+
   // Media functions
   const addMedia = (mediaData: Omit<MediaFile, "id" | "uploadedAt">) => {
     const newMedia: MediaFile = {
