@@ -284,92 +284,99 @@ export default function MemberDashboard() {
             <h2 className="text-2xl font-bold">My Assigned Tasks</h2>
           </div>
 
-                    <div className="space-y-4">
+          <div className="space-y-4">
             {assignedTasks.length === 0 ? (
               <Card>
                 <CardContent className="p-8 text-center">
                   <Calendar className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                   <h4 className="font-medium mb-2">No tasks available</h4>
                   <p className="text-sm text-muted-foreground">
-                    No tasks have been created yet. Contact your administrator to create tasks.
+                    No tasks have been created yet. Contact your administrator
+                    to create tasks.
                   </p>
                 </CardContent>
               </Card>
             ) : (
               assignedTasks.map((task) => (
-              <Card key={task.id} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <h3 className="text-lg font-semibold">{task.name}</h3>
+                <Card
+                  key={task.id}
+                  className="hover:shadow-md transition-shadow"
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <h3 className="text-lg font-semibold">
+                              {task.name}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              {task.project} • {task.trade}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Badge className={getPriorityColor(task.priority)}>
+                              {task.priority} priority
+                            </Badge>
+                            <Badge className={getStatusColor(task.status)}>
+                              {task.status}
+                            </Badge>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 mb-4">
+                          <div className="flex items-center justify-between text-sm">
+                            <span>Progress</span>
+                            <span>{task.progress}%</span>
+                          </div>
+                          <Progress value={task.progress} className="h-2" />
+                        </div>
+
+                        <div className="flex items-center justify-between">
                           <p className="text-sm text-muted-foreground">
-                            {task.project} • {task.trade}
+                            Due: {new Date(task.dueDate).toLocaleDateString()}
                           </p>
+                          <div className="flex gap-2">
+                            <TaskMediaUpload
+                              taskId={task.id}
+                              taskName={task.name}
+                              size="sm"
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleUpdateProgress(task.id)}
+                            >
+                              Update Progress
+                            </Button>
+                            <Button
+                              size="sm"
+                              onClick={() => handleViewTaskDetails(task.id)}
+                            >
+                              View Details
+                            </Button>
+                          </div>
                         </div>
-                        <div className="flex gap-2">
-                          <Badge className={getPriorityColor(task.priority)}>
-                            {task.priority} priority
-                          </Badge>
-                          <Badge className={getStatusColor(task.status)}>
-                            {task.status}
-                          </Badge>
-                        </div>
-                      </div>
 
-                      <div className="space-y-2 mb-4">
-                        <div className="flex items-center justify-between text-sm">
-                          <span>Progress</span>
-                          <span>{task.progress}%</span>
-                        </div>
-                        <Progress value={task.progress} className="h-2" />
+                        {/* Media Preview */}
+                        {task.media && task.media.length > 0 && (
+                          <div className="mt-4 pt-4 border-t">
+                            <MediaPreview
+                              media={task.media}
+                              onEdit={handleEditMedia}
+                              onDelete={handleDeleteMedia}
+                              showEdit={true}
+                              showDelete={true}
+                              currentUserId={user?.username}
+                            />
+                          </div>
+                        )}
                       </div>
-
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm text-muted-foreground">
-                          Due: {new Date(task.dueDate).toLocaleDateString()}
-                        </p>
-                        <div className="flex gap-2">
-                          <TaskMediaUpload
-                            taskId={task.id}
-                            taskName={task.name}
-                            size="sm"
-                          />
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleUpdateProgress(task.id)}
-                          >
-                            Update Progress
-                          </Button>
-                          <Button
-                            size="sm"
-                            onClick={() => handleViewTaskDetails(task.id)}
-                          >
-                            View Details
-                          </Button>
-                        </div>
-                      </div>
-
-                      {/* Media Preview */}
-                      {task.media && task.media.length > 0 && (
-                        <div className="mt-4 pt-4 border-t">
-                          <MediaPreview
-                            media={task.media}
-                            onEdit={handleEditMedia}
-                            onDelete={handleDeleteMedia}
-                            showEdit={true}
-                            showDelete={true}
-                            currentUserId={user?.username}
-                          />
-                        </div>
-                      )}
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </div>
 
