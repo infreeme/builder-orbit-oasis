@@ -51,7 +51,6 @@ export const TaskManagement: React.FC = () => {
         dueDate: newTaskData.dueDate,
         trade: newTaskData.trade || "General",
         priority: newTaskData.priority,
-        assignedTo: newTaskData.assignedTo || undefined,
         phaseId: newTaskData.phaseId || undefined,
       });
       setShowCreateTaskDialog(false);
