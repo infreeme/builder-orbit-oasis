@@ -336,7 +336,12 @@ export default function MemberDashboard() {
                       {/* Media Preview */}
                       {task.media && task.media.length > 0 && (
                         <div className="mt-4 pt-4 border-t">
-                          <MediaPreview media={task.media} />
+                          <MediaPreview
+                            media={task.media}
+                            onEdit={handleEditMedia}
+                            showEdit={true}
+                            currentUserId={user?.username}
+                          />
                         </div>
                       )}
                     </div>
