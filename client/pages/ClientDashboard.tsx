@@ -364,6 +364,16 @@ export default function ClientDashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Project Media Gallery */}
+        <ProjectMediaGallery
+          projectName={selectedProjectForGallery}
+          open={showProjectGallery}
+          onClose={() => {
+            setShowProjectGallery(false);
+            setSelectedProjectForGallery("");
+          }}
+        />
       </div>
     </div>
   );
