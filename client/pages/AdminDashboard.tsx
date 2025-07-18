@@ -625,6 +625,50 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
+              {/* Project Management Section */}
+              <div className="space-y-3">
+                <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                  Project Management
+                </h4>
+                <div className="grid grid-cols-1 gap-2">
+                  <select
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    value={selectedProjectForDeletion}
+                    onChange={(e) =>
+                      setSelectedProjectForDeletion(e.target.value)
+                    }
+                  >
+                    <option value="">Select project to delete...</option>
+                    {projects.map((project) => (
+                      <option key={project.id} value={project.id}>
+                        {project.name}
+                      </option>
+                    ))}
+                  </select>
+                  <Button
+                    variant="destructive"
+                    className="justify-start"
+                    onClick={handleDeleteProject}
+                    disabled={!selectedProjectForDeletion}
+                  >
+                    <svg
+                      className="w-4 h-4 mr-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                    Delete Selected Project
+                  </Button>
+                </div>
+              </div>
+
               {/* Appearance Section */}
               <div className="space-y-3">
                 <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
