@@ -397,7 +397,7 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
           </div>
 
           {/* Media Content */}
-          <ScrollArea className="max-h-[60vh]">
+          <ScrollArea className="h-[60vh] w-full">
             {filteredMedia.length === 0 ? (
               <Card>
                 <CardContent className="p-12 text-center">
