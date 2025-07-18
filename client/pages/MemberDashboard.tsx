@@ -28,6 +28,7 @@ import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/data-context";
 import MediaPreview from "@/components/MediaPreview";
 import ProgressUpdate from "@/components/ProgressUpdate";
+import TaskMediaUpload from "@/components/TaskMediaUpload";
 
 export default function MemberDashboard() {
   const { user, logout } = useAuth();
