@@ -6,17 +6,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuth, UserRole } from "@/lib/auth";
+import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
 export default function Index() {
-  const [selectedRole, setSelectedRole] = useState<UserRole>("admin");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -25,11 +24,11 @@ export default function Index() {
     setError("");
 
     try {
-      const success = await login(username, password, selectedRole);
-      if (success) {
-        navigate(`/dashboard/${selectedRole}`);
+      const result = await login(email, password);
+      if (result.success) {
+        // Navigation will be handled by the auth state change
       } else {
-        setError("Invalid credentials. Please try again.");
+        setError(result.error || "Invalid credentials. Please try again.");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
@@ -38,47 +37,16 @@ export default function Index() {
     }
   };
 
-  const roleConfigs = {
-    admin: {
-      icon: Construction,
-      title: "Admin Access",
-      description: "Full project management and user administration",
-      color: "border-primary bg-primary/5",
-      features: [
-        "Create & manage projects",
-        "User management",
-        "Full timeline control",
-        "Data analytics",
-      ],
-      credentials: "Username: admin | Password: admin123",
-    },
-    member: {
-      icon: Users,
-      title: "Team Member",
-      description: "Project collaboration and progress updates",
-      color: "border-info bg-info/5",
-      features: [
-        "View assigned projects",
-        "Upload progress photos",
-        "Update task completion",
-        "Track milestones",
-      ],
-      credentials: "Create users via Admin dashboard",
-    },
-    client: {
-      icon: Eye,
-      title: "Client View",
-      description: "Read-only project monitoring and progress tracking",
-      color: "border-accent bg-accent/5",
-      features: [
-        "View project timeline",
-        "Monitor progress",
-        "See uploaded media",
-        "Track milestones",
-      ],
-      credentials: "Create users via Admin dashboard",
-    },
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
@@ -128,131 +96,110 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Role Selection & Login */}
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            {/* Role Cards */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold mb-4">Choose Your Role</h3>
-              <div className="space-y-4">
-                {Object.entries(roleConfigs).map(([role, config]) => {
-                  const Icon = config.icon;
-                  return (
-                    <Card
-                      key={role}
-                      className={cn(
-                        "cursor-pointer transition-all duration-200 hover:shadow-md",
-                        selectedRole === role
-                          ? config.color
-                          : "hover:border-border",
-                      )}
-                      onClick={() => setSelectedRole(role as UserRole)}
-                    >
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-4">
-                          <div
-                            className={cn(
-                              "flex items-center justify-center w-12 h-12 rounded-lg",
-                              selectedRole === role
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted text-muted-foreground",
-                            )}
-                          >
-                            <Icon className="w-6 h-6" />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-lg mb-1">
-                              {config.title}
-                            </h4>
-                            <p className="text-muted-foreground mb-3">
-                              {config.description}
-                            </p>
-                            <div className="grid grid-cols-2 gap-2 text-sm">
-                              {config.features.map((feature, index) => (
-                                <div
-                                  key={index}
-                                  className="flex items-center gap-2 text-muted-foreground"
-                                >
-                                  <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                                  {feature}
-                                </div>
-                              ))}
-                            </div>
-                            <div className="mt-3 p-2 bg-muted/50 rounded text-xs font-mono text-muted-foreground">
-                              {config.credentials}
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
-            </div>
+          {/* Login Form */}
+          <div className="max-w-md mx-auto">
+            <Card className="shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-center text-2xl">
+                  Sign In
+                </CardTitle>
+                <p className="text-center text-muted-foreground">
+                  Access your construction project dashboard
+                </p>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  {error && (
+                    <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+                      {error}
+                    </div>
+                  )}
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Signing In..." : "Sign In"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
 
-            {/* Login Form */}
-            <div className="lg:sticky lg:top-8">
+            {/* Features Overview */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
               <Card className="shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-center">
-                    Sign In as {roleConfigs[selectedRole].title.split(" ")[0]}
-                  </CardTitle>
-                </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleLogin} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="username">Username</Label>
-                      <Input
-                        id="username"
-                        type="text"
-                        placeholder="Enter username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="password">Password</Label>
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                    </div>
-                    {error && (
-                      <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
-                        {error}
-                      </div>
-                    )}
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Signing In..." : "Sign In"}
-                    </Button>
-                  </form>
+                  <div className="text-center p-4">
+                    <Construction className="w-8 h-8 mx-auto mb-2 text-primary" />
+                    <h4 className="font-semibold">Admin Control</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Full project management
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
 
-              {/* Demo Notice */}
-              <div className="mt-6 p-4 bg-info/10 border border-info/20 rounded-lg">
-                <div className="flex items-start gap-3">
-                  <div className="w-5 h-5 bg-info rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-info-foreground text-xs font-bold">
-                      i
-                    </span>
-                  </div>
-                  <div className="text-sm">
-                    <p className="font-medium text-info mb-1">Demo Version</p>
-                    <p className="text-muted-foreground">
-                      This is a demonstration version with mock data. Use the
-                      credentials shown in each role card to explore different
-                      user experiences.
+              <Card className="shadow-lg">
+                <CardContent>
+                  <div className="text-center p-4">
+                    <Users className="w-8 h-8 mx-auto mb-2 text-info" />
+                    <h4 className="font-semibold">Team Members</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Progress tracking & updates
                     </p>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card className="shadow-lg">
+                <CardContent>
+                  <div className="text-center p-4">
+                    <Eye className="w-8 h-8 mx-auto mb-2 text-accent" />
+                    <h4 className="font-semibold">Client Access</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Project monitoring
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Setup Notice */}
+            <div className="mt-8 p-4 bg-info/10 border border-info/20 rounded-lg">
+              <div className="flex items-start gap-3">
+                <div className="w-5 h-5 bg-info rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-info-foreground text-xs font-bold">
+                    i
+                  </span>
+                </div>
+                <div className="text-sm">
+                  <p className="font-medium text-info mb-1">Setup Required</p>
+                  <p className="text-muted-foreground">
+                    Connect to Supabase using the button in the top right to set up your database. 
+                    Then create an admin user account to get started.
+                  </p>
                 </div>
               </div>
             </div>

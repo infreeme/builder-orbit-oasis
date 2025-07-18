@@ -44,6 +44,7 @@ export const TaskMediaUpload: React.FC<TaskMediaUploadProps> = ({
           type: file.type.startsWith("image/") ? "image" : "video",
           taskId: taskId,
           uploadedBy: user.username,
+          uploadedByName: user.name,
           description: description,
         });
       });

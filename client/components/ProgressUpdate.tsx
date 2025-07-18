@@ -32,7 +32,8 @@ export const ProgressUpdate: React.FC<ProgressUpdateProps> = ({
 
   // Filter tasks based on project if specified
   const availableTasks = projectName
-    ? tasks.filter((task) => task.project === projectName)
+    ? tasks.filter((task) => task.project === projectName || 
+        projects.find(p => p.id === task.projectId)?.name === projectName)
     : tasks;
 
   const handleUpdateProgress = (task: Task) => {

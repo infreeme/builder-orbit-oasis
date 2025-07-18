@@ -23,9 +23,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useData, type User } from "@/lib/data-context";
+import { useAuth } from "@/lib/auth";
 
 export const UserManagement: React.FC = () => {
   const { users, addUser, updateUser, deleteUser, projects } = useData();
+  const { signup } = useAuth();
   const [showCreateUserDialog, setShowCreateUserDialog] = useState(false);
   const [showEditUserDialog, setShowEditUserDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -35,6 +37,7 @@ export const UserManagement: React.FC = () => {
   const [showEditPassword, setShowEditPassword] = useState(false);
 
   const [newUserData, setNewUserData] = useState({
+    email: "",
     name: "",
     username: "",
     password: "",
@@ -45,37 +48,44 @@ export const UserManagement: React.FC = () => {
   const [editUserData, setEditUserData] = useState({
     name: "",
     username: "",
-    password: "",
     role: "member" as "admin" | "member" | "client",
     assignedProjects: [] as string[],
   });
 
-  const handleCreateUser = () => {
-    if (newUserData.name && newUserData.username && newUserData.password) {
+  const handleCreateUser = async () => {
+    if (newUserData.email && newUserData.name && newUserData.username && newUserData.password) {
       // Check if username already exists
       if (users.some((user) => user.username === newUserData.username)) {
         alert("Username already exists! Please choose a different username.");
         return;
       }
 
-      addUser({
-        name: newUserData.name,
-        username: newUserData.username,
-        password: newUserData.password,
-        role: newUserData.role,
-        assignedProjects:
-          newUserData.role === "client"
-            ? newUserData.assignedProjects
-            : undefined,
-      });
-      setShowCreateUserDialog(false);
-      setNewUserData({
-        name: "",
-        username: "",
-        password: "",
-        role: "member",
-        assignedProjects: [],
-      });
+      try {
+        const result = await signup(newUserData.email, newUserData.password, {
+          username: newUserData.username,
+          name: newUserData.name,
+          role: newUserData.role,
+          assignedProjects: newUserData.role === "client" ? newUserData.assignedProjects : undefined,
+        });
+
+        if (result.success) {
+          setShowCreateUserDialog(false);
+          setNewUserData({
+            email: "",
+            name: "",
+            username: "",
+            password: "",
+            role: "member",
+            assignedProjects: [],
+          });
+          // Reload users to show the new user
+          window.location.reload();
+        } else {
+          alert(result.error || "Failed to create user");
+        }
+      } catch (error) {
+        alert("An error occurred while creating the user");
+      }
     }
   };
 
@@ -84,7 +94,6 @@ export const UserManagement: React.FC = () => {
     setEditUserData({
       name: user.name,
       username: user.username,
-      password: user.password,
       role: user.role,
       assignedProjects: user.assignedProjects || [],
     });
@@ -95,8 +104,7 @@ export const UserManagement: React.FC = () => {
     if (
       editingUser &&
       editUserData.name &&
-      editUserData.username &&
-      editUserData.password
+      editUserData.username
     ) {
       // Check if username already exists (excluding current user)
       if (
@@ -113,7 +121,6 @@ export const UserManagement: React.FC = () => {
       updateUser(editingUser.id, {
         name: editUserData.name,
         username: editUserData.username,
-        password: editUserData.password,
         role: editUserData.role,
         assignedProjects:
           editUserData.role === "client"
@@ -201,7 +208,6 @@ export const UserManagement: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <span>@{user.username}</span>
-                      <span>Password: {user.password.replace(/./g, "•")}</span>
                       {user.role === "client" &&
                         user.assignedProjects &&
                         user.assignedProjects.length > 0 && (
@@ -218,17 +224,15 @@ export const UserManagement: React.FC = () => {
                       <Edit className="w-4 h-4 mr-2" />
                       Edit
                     </Button>
-                    {user.username !== "admin" && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleDeleteUser(user)}
-                        className="text-destructive hover:text-destructive"
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete
-                      </Button>
-                    )}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleDeleteUser(user)}
+                      className="text-destructive hover:text-destructive"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -250,6 +254,21 @@ export const UserManagement: React.FC = () => {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="new-user-email" className="text-right">
+                Email
+              </Label>
+              <Input
+                id="new-user-email"
+                type="email"
+                placeholder="Enter email address"
+                className="col-span-3"
+                value={newUserData.email}
+                onChange={(e) =>
+                  setNewUserData((prev) => ({ ...prev, email: e.target.value }))
+                }
+              />
+            </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="new-user-name" className="text-right">
                 Full Name
@@ -440,38 +459,6 @@ export const UserManagement: React.FC = () => {
                   }))
                 }
               />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-password" className="text-right">
-                Password
-              </Label>
-              <div className="col-span-3 relative">
-                <Input
-                  id="edit-password"
-                  type={showEditPassword ? "text" : "password"}
-                  placeholder="Enter password"
-                  value={editUserData.password}
-                  onChange={(e) =>
-                    setEditUserData((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                  onClick={() => setShowEditPassword(!showEditPassword)}
-                >
-                  {showEditPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-role" className="text-right">

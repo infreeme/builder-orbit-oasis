@@ -42,7 +42,7 @@ export default function ClientDashboard() {
 
   // Calculate comprehensive project statistics
   const projectStats = projects.map((project) => {
-    const projectTasks = tasks.filter((task) => task.project === project.name);
+    const projectTasks = tasks.filter((task) => task.projectId === project.id || task.project === project.name);
     const completedTasks = projectTasks.filter(
       (task) => task.status === "completed",
     );

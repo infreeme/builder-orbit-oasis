@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { useData } from "./data-context";
+import { supabase } from "./supabase";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export type UserRole = "admin" | "member" | "client";
 
@@ -8,8 +9,8 @@ export interface User {
   username: string;
   role: UserRole;
   name: string;
-  password: string;
   assignedProjects?: string[];
+  authUserId?: string;
 }
 
 export interface Project {
@@ -67,12 +68,22 @@ export interface Media {
 interface AuthContextType {
   user: User | null;
   login: (
-    username: string,
+    email: string,
     password: string,
-    role: UserRole,
-  ) => Promise<boolean>;
+  ) => Promise<{ success: boolean; error?: string }>;
+  signup: (
+    email: string,
+    password: string,
+    userData: {
+      username: string;
+      name: string;
+      role: UserRole;
+      assignedProjects?: string[];
+    }
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   isAuthenticated: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -85,55 +96,165 @@ export const useAuth = () => {
   return context;
 };
 
-// Initial admin user - will be created automatically
-const initialAdminUser: User = {
-  id: "admin",
-  username: "admin",
-  role: "admin",
-  name: "Administrator",
-  password: "admin123",
-};
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthProviderInner: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const { users } = useData();
+  const [loading, setLoading] = useState(true);
 
-  const login = async (
-    username: string,
-    password: string,
-    role: UserRole,
-  ): Promise<boolean> => {
-    // Simple authentication - in production, this should be secured
-    const userData = users.find(
-      (u) => u.username === username && u.role === role,
+  // Check for existing session on mount
+  React.useEffect(() => {
+    const getSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          await loadUserProfile(session.user);
+        }
+      } catch (error) {
+        console.error('Error getting session:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          await loadUserProfile(session.user);
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+        }
+        setLoading(false);
+      }
     );
 
-    if (userData && userData.password === password) {
-      setUser(userData);
-      return true;
-    }
+    return () => subscription.unsubscribe();
+  }, []);
 
-    return false;
+  const loadUserProfile = async (authUser: SupabaseUser) => {
+    try {
+      const { data: userProfile, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('auth_user_id', authUser.id)
+        .single();
+
+      if (error) {
+        console.error('Error loading user profile:', error);
+        return;
+      }
+
+      if (userProfile) {
+        setUser({
+          id: userProfile.id,
+          username: userProfile.username,
+          name: userProfile.name,
+          role: userProfile.role as UserRole,
+          assignedProjects: userProfile.assigned_projects,
+          authUserId: userProfile.auth_user_id,
+        });
+      }
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+    }
+  };
+
+  const login = async (
+    email: string,
+    password: string,
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        return { success: false, error: error.message };
+      }
+
+      if (data.user) {
+        await loadUserProfile(data.user);
+        return { success: true };
+      }
+
+      return { success: false, error: 'Login failed' };
+    } catch (error) {
+      return { success: false, error: 'An unexpected error occurred' };
+    }
+  };
+
+  const signup = async (
+    email: string,
+    password: string,
+    userData: {
+      username: string;
+      name: string;
+      role: UserRole;
+      assignedProjects?: string[];
+    }
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      // First create the auth user
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (authError) {
+        return { success: false, error: authError.message };
+      }
+
+      if (authData.user) {
+        // Create the user profile
+        const { error: profileError } = await supabase
+          .from('users')
+          .insert({
+            auth_user_id: authData.user.id,
+            username: userData.username,
+            name: userData.name,
+            role: userData.role,
+            assigned_projects: userData.assignedProjects || [],
+          });
+
+        if (profileError) {
+          // Clean up auth user if profile creation fails
+          await supabase.auth.admin.deleteUser(authData.user.id);
+          return { success: false, error: profileError.message };
+        }
+
+        return { success: true };
+      }
+
+      return { success: false, error: 'Signup failed' };
+    } catch (error) {
+      return { success: false, error: 'An unexpected error occurred' };
+    }
   };
 
   const logout = () => {
+    supabase.auth.signOut();
     setUser(null);
   };
 
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      signup, 
+      logout, 
+      isAuthenticated, 
+      loading 
+    }}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-// Wrapper that ensures DataProvider is available
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  return <AuthProviderInner>{children}</AuthProviderInner>;
 };

@@ -53,6 +53,7 @@ export const TaskManagement: React.FC = () => {
       addTask({
         name: newTaskData.name,
         project: newTaskData.project,
+        projectId: '', // Will be resolved in addTask function
         progress: 0,
         status: "planned",
         startDate: newTaskData.startDate || newTaskData.dueDate,
@@ -103,6 +104,7 @@ export const TaskManagement: React.FC = () => {
       updateTask(editingTask.id, {
         name: editTaskData.name,
         project: editTaskData.project,
+        projectId: editingTask.projectId, // Keep existing projectId
         startDate: editTaskData.startDate || editTaskData.dueDate,
         endDate: editTaskData.endDate || editTaskData.dueDate,
         dueDate: editTaskData.dueDate || editTaskData.endDate,

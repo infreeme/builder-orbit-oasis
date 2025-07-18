@@ -50,7 +50,10 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
   const [viewingMedia, setViewingMedia] = useState<any>(null);
 
   // Get project tasks and their media
-  const projectTasks = tasks.filter((task) => task.project === projectName);
+  const projectTasks = tasks.filter((task) => 
+    task.project === projectName || 
+    projects.find(p => p.id === task.projectId)?.name === projectName
+  );
   const projectMedia = media.filter((m) =>
     projectTasks.some((t) => t.id === m.taskId),
   );

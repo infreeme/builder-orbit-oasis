@@ -36,7 +36,7 @@ export default function ProjectTimeline() {
 
     // Get project tasks
     const projectTasks = tasks.filter(
-      (task) => task.project === currentProject.name,
+      (task) => task.projectId === currentProject.id || task.project === currentProject.name,
     );
 
     // If project has defined phases, use them
