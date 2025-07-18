@@ -34,6 +34,11 @@ export default function ClientDashboard() {
     navigate("/");
   };
 
+  const handleOpenProjectGallery = (projectName: string) => {
+    setSelectedProjectForGallery(projectName);
+    setShowProjectGallery(true);
+  };
+
   // Get projects and calculate stats from real data
   const assignedProjects = projects.map((project) => {
     const projectTasks = tasks.filter((task) => task.project === project.name);
