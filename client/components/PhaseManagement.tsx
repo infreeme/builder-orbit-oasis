@@ -45,6 +45,16 @@ export const PhaseManagement: React.FC<PhaseManagementProps> = ({
   const [selectedProject, setSelectedProject] = useState<Project | null>(
     projectId ? projects.find((p) => p.id === projectId) || null : null,
   );
+
+  // Keep selectedProject in sync with projects data
+  useEffect(() => {
+    if (selectedProject) {
+      const updatedProject = projects.find((p) => p.id === selectedProject.id);
+      if (updatedProject) {
+        setSelectedProject(updatedProject);
+      }
+    }
+  }, [projects, selectedProject?.id]);
   const [showCreatePhaseDialog, setShowCreatePhaseDialog] = useState(false);
   const [showEditPhaseDialog, setShowEditPhaseDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
