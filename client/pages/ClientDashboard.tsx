@@ -19,6 +19,7 @@ import { useAuth } from "@/lib/auth";
 import { useData } from "@/lib/data-context";
 import MediaGallery from "@/components/MediaGallery";
 import ProgressComments from "@/components/ProgressComments";
+import ProjectMediaGallery from "@/components/ProjectMediaGallery";
 
 export default function ClientDashboard() {
   const { user, logout } = useAuth();
