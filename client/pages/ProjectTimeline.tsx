@@ -393,6 +393,7 @@ export default function ProjectTimeline() {
               userRole={user?.role as "admin" | "member" | "client"}
               onTaskClick={handleTaskClick}
               onPhaseToggle={handlePhaseToggle}
+              scrollRef={scrollContainerRef}
             />
           </div>
         )}
