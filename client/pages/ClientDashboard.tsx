@@ -168,7 +168,10 @@ export default function ClientDashboard() {
                       View Timeline
                     </Button>
                   </Link>
-                  <Button variant="outline">
+                  <Button
+                    variant="outline"
+                    onClick={() => handleOpenProjectGallery(project.name)}
+                  >
                     <FileImage className="w-4 h-4 mr-2" />
                     Project Gallery
                   </Button>
