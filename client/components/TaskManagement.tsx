@@ -210,7 +210,7 @@ export const TaskManagement: React.FC = () => {
           <DialogHeader>
             <DialogTitle>Create New Task</DialogTitle>
             <DialogDescription>
-              Add a new task and assign it to a team member.
+              Add a new task for the entire team to work on.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
