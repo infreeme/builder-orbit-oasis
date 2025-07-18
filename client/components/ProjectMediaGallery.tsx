@@ -47,6 +47,7 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
     "task" | "date" | "days"
   >("task");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [viewingMedia, setViewingMedia] = useState<any>(null);
 
   // Get project tasks and their media
   const projectTasks = tasks.filter((task) => task.project === projectName);
