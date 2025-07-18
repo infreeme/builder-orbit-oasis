@@ -440,28 +440,6 @@ export const TaskManagement: React.FC = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-task-assigned-to" className="text-right">
-                Assign To
-              </Label>
-              <select
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm col-span-3"
-                value={editTaskData.assignedTo}
-                onChange={(e) =>
-                  setEditTaskData((prev) => ({
-                    ...prev,
-                    assignedTo: e.target.value,
-                  }))
-                }
-              >
-                <option value="">Unassigned</option>
-                {memberUsers.map((user) => (
-                  <option key={user.id} value={user.username}>
-                    {user.name} ({user.username})
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-task-status" className="text-right">
                 Status
               </Label>
