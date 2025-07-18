@@ -95,7 +95,6 @@ export const TaskManagement: React.FC = () => {
         dueDate: editTaskData.dueDate,
         trade: editTaskData.trade || "General",
         priority: editTaskData.priority,
-        assignedTo: editTaskData.assignedTo || undefined,
         status: editTaskData.status,
         progress: editTaskData.progress,
         phaseId: editTaskData.phaseId || undefined,
