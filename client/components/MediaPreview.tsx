@@ -130,6 +130,19 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
                 >
                   <Download className="w-4 h-4" />
                 </Button>
+                {showEdit &&
+                  onEdit &&
+                  (!currentUserId ||
+                    mediaFile.uploadedBy === currentUserId) && (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => handleEdit(mediaFile)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </Button>
+                  )}
                 {showDelete && onDelete && (
                   <Button
                     size="sm"
