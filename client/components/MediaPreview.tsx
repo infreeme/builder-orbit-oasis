@@ -189,6 +189,52 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
           </div>
         ))}
       </div>
+
+      {/* Edit Media Dialog */}
+      <Dialog open={!!editingMedia} onOpenChange={() => setEditingMedia(null)}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Media</DialogTitle>
+            <DialogDescription>
+              Update the name and description for this media file.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="media-name">File Name</Label>
+              <Input
+                id="media-name"
+                value={editForm.name}
+                onChange={(e) =>
+                  setEditForm((prev) => ({ ...prev, name: e.target.value }))
+                }
+                placeholder="Enter file name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="media-description">Description</Label>
+              <Textarea
+                id="media-description"
+                value={editForm.description}
+                onChange={(e) =>
+                  setEditForm((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
+                placeholder="Enter description (optional)"
+                rows={3}
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-3">
+            <Button variant="outline" onClick={() => setEditingMedia(null)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveEdit}>Save Changes</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
