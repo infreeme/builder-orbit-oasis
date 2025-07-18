@@ -205,6 +205,16 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
 
             {/* Overlay Controls */}
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2">
+              {mediaFile.type === "image" && (
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => setViewingMedia(mediaFile)}
+                  className="h-8 w-8 p-0"
+                >
+                  <Eye className="w-4 h-4" />
+                </Button>
+              )}
               <Button
                 size="sm"
                 variant="secondary"
