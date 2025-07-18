@@ -10,7 +10,6 @@ import {
   Calendar,
   Clock,
   Folder,
-  Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -46,7 +45,6 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
     "task" | "date" | "days"
   >("task");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [viewingMedia, setViewingMedia] = useState<any>(null);
 
   // Get project tasks and their media
   const projectTasks = tasks.filter((task) => task.project === projectName);
@@ -205,16 +203,6 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
 
             {/* Overlay Controls */}
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2">
-              {mediaFile.type === "image" && (
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  onClick={() => setViewingMedia(mediaFile)}
-                  className="h-8 w-8 p-0"
-                >
-                  <Eye className="w-4 h-4" />
-                </Button>
-              )}
               <Button
                 size="sm"
                 variant="secondary"
@@ -330,10 +318,9 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
     }
   };
 
-    return (
-    <>
-      <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[1000px] max-h-[90vh]">
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[1000px] max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FileImage className="w-5 h-5" />
@@ -458,83 +445,7 @@ export const ProjectMediaGallery: React.FC<ProjectMediaGalleryProps> = ({
           </ScrollArea>
         </div>
       </DialogContent>
-
-      {/* Fullscreen Image Viewer */}
-      <Dialog open={!!viewingMedia} onOpenChange={() => setViewingMedia(null)}>
-        <DialogContent className="max-w-7xl max-h-[95vh] p-0 border-0">
-          <div className="relative bg-black rounded-lg overflow-hidden">
-            {viewingMedia && (
-              <>
-                <img
-                  src={viewingMedia.url}
-                  alt={viewingMedia.name}
-                  className="w-full h-full max-h-[90vh] object-contain"
-                />
-                <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg">
-                  <p className="font-medium">{viewingMedia.name}</p>
-                  <p className="text-sm opacity-90">
-                    Uploaded by {viewingMedia.uploadedBy}
-                  </p>
-                </div>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setViewingMedia(null)}
-                  className="absolute top-4 right-4"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </Button>
-              </>
-            )}
-          </div>
-                </DialogContent>
-      </Dialog>
-
-      {/* Fullscreen Image Viewer */}
-      <Dialog open={!!viewingMedia} onOpenChange={() => setViewingMedia(null)}>
-        <DialogContent className="max-w-7xl max-h-[95vh] p-0 border-0">
-          <div className="relative bg-black rounded-lg overflow-hidden">
-            {viewingMedia && (
-              <>
-                <img
-                  src={viewingMedia.url}
-                  alt={viewingMedia.name}
-                  className="w-full h-full max-h-[90vh] object-contain"
-                />
-                <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-2 rounded-lg">
-                  <p className="font-medium">{viewingMedia.name}</p>
-                  <p className="text-sm opacity-90">
-                    Uploaded by {viewingMedia.uploadedBy}
-                  </p>
-                </div>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setViewingMedia(null)}
-                  className="absolute top-4 right-4"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </Button>
-              </>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+    </Dialog>
   );
 };
 
