@@ -238,13 +238,6 @@ export default function ProjectTimeline() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" onClick={handleScrollLeft}>
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleScrollRight}>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-              <div className="h-4 w-px bg-border" />
               <Button variant="outline" size="sm" onClick={handleZoomOut}>
                 <ZoomOut className="w-4 h-4" />
               </Button>
