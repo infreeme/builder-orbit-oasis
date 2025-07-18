@@ -34,6 +34,8 @@ export const TaskManagement: React.FC = () => {
   const [editTaskData, setEditTaskData] = useState({
     name: "",
     project: "",
+    startDate: "",
+    endDate: "",
     dueDate: "",
     trade: "",
     priority: "medium" as "high" | "medium" | "low",
