@@ -98,12 +98,14 @@ export const TaskManagement: React.FC = () => {
       editingTask &&
       editTaskData.name &&
       editTaskData.project &&
-      editTaskData.dueDate
+      (editTaskData.startDate || editTaskData.dueDate)
     ) {
       updateTask(editingTask.id, {
         name: editTaskData.name,
         project: editTaskData.project,
-        dueDate: editTaskData.dueDate,
+        startDate: editTaskData.startDate || editTaskData.dueDate,
+        endDate: editTaskData.endDate || editTaskData.dueDate,
+        dueDate: editTaskData.dueDate || editTaskData.endDate,
         trade: editTaskData.trade || "General",
         priority: editTaskData.priority,
         status: editTaskData.status,
