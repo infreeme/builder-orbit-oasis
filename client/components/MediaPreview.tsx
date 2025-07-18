@@ -7,7 +7,13 @@ import type { MediaFile } from "@/lib/data-context";
 interface MediaPreviewProps {
   media: MediaFile[];
   onDelete?: (mediaId: string) => void;
+  onEdit?: (
+    mediaId: string,
+    updates: { name?: string; description?: string },
+  ) => void;
   showDelete?: boolean;
+  showEdit?: boolean;
+  currentUserId?: string;
 }
 
 export const MediaPreview: React.FC<MediaPreviewProps> = ({
