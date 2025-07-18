@@ -157,12 +157,6 @@ export const TaskManagement: React.FC = () => {
                       <span>
                         Due: {new Date(task.dueDate).toLocaleDateString()}
                       </span>
-                      {task.assignedTo && (
-                        <span className="flex items-center gap-1">
-                          <Users className="w-3 h-3" />
-                          {task.assignedTo}
-                        </span>
-                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
