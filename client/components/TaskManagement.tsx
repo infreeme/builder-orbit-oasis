@@ -45,13 +45,19 @@ export const TaskManagement: React.FC = () => {
   });
 
   const handleCreateTask = () => {
-    if (newTaskData.name && newTaskData.project && newTaskData.dueDate) {
+    if (
+      newTaskData.name &&
+      newTaskData.project &&
+      (newTaskData.startDate || newTaskData.dueDate)
+    ) {
       addTask({
         name: newTaskData.name,
         project: newTaskData.project,
         progress: 0,
         status: "planned",
-        dueDate: newTaskData.dueDate,
+        startDate: newTaskData.startDate || newTaskData.dueDate,
+        endDate: newTaskData.endDate || newTaskData.dueDate,
+        dueDate: newTaskData.dueDate || newTaskData.endDate,
         trade: newTaskData.trade || "General",
         priority: newTaskData.priority,
         phaseId: newTaskData.phaseId || undefined,
@@ -60,6 +66,8 @@ export const TaskManagement: React.FC = () => {
       setNewTaskData({
         name: "",
         project: "",
+        startDate: "",
+        endDate: "",
         dueDate: "",
         trade: "",
         priority: "medium",
