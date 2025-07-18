@@ -198,11 +198,14 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   };
 
   // Task functions
-  const addTask = (taskData: Omit<Task, "id" | "media">) => {
+  const addTask = (
+    taskData: Omit<Task, "id" | "media" | "progressComments">,
+  ) => {
     const newTask: Task = {
       ...taskData,
       id: Date.now().toString(),
       media: [],
+      progressComments: [],
     };
     setTasks((prev) => [...prev, newTask]);
   };
