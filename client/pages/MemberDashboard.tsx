@@ -156,8 +156,10 @@ export default function MemberDashboard() {
     }
   };
 
-  // Show all tasks for team members (since tasks are assigned to entire team by default)
-  const assignedTasks = tasks;
+  // Filter tasks assigned to current user
+  const assignedTasks = tasks.filter(
+    (task) => task.assignedTo === user?.username,
+  );
 
   // Get recent uploads from tasks
   const recentUploads = assignedTasks

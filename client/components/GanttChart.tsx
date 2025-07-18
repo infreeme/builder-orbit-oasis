@@ -138,53 +138,52 @@ export const GanttChart: React.FC<GanttChartProps> = ({
     }
   };
 
-    return (
+  return (
     <div className="border rounded-lg bg-card">
-      {/* Chart container with synchronized scrolling */}
-      <div className="overflow-x-auto" ref={scrollRef}>
-        <div style={{ width: chartWidth + 320 }}> {/* Add task name column width */}
-          {/* Header with date grid */}
-          <div className="border-b bg-muted/30">
-            <div className="flex">
-              {/* Task name column header */}
-              <div className="w-80 p-4 border-r bg-background flex-shrink-0">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold">Tasks</h3>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Clock className="w-3 h-3" />
-                    {totalDays} days
-                  </div>
-                </div>
-              </div>
-
-              {/* Date header */}
-              <div className="flex" style={{ width: chartWidth }}>
-                {dateGrid.map((date, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 border-r p-2 text-center"
-                    style={{ width: dayWidth }}
-                  >
-                    <div className="text-xs font-medium">
-                      {date.toLocaleDateString("en-US", { month: "short" })}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {date.getDate()}
-                    </div>
-                  </div>
-                ))}
+      {/* Header with date grid */}
+      <div className="border-b bg-muted/30">
+        <div className="flex">
+          {/* Task name column header */}
+          <div className="w-80 p-4 border-r bg-background">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold">Tasks</h3>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <Clock className="w-3 h-3" />
+                {totalDays} days
               </div>
             </div>
           </div>
 
-          {/* Chart body */}
-          <div className="max-h-96 overflow-y-auto">
+          {/* Date header */}
+          <ScrollArea className="flex-1" ref={scrollRef}>
+            <div className="flex" style={{ width: chartWidth }}>
+              {dateGrid.map((date, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 border-r p-2 text-center"
+                  style={{ width: dayWidth }}
+                >
+                  <div className="text-xs font-medium">
+                    {date.toLocaleDateString("en-US", { month: "short" })}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {date.getDate()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
+      </div>
+
+      {/* Chart body */}
+      <ScrollArea className="max-h-96">
         <div className="relative">
           {phases.map((phase) => (
             <div key={phase.id} className="border-b last:border-b-0">
               {/* Phase header */}
               <div className="flex">
-                                <div className="w-80 p-3 border-r bg-muted/20 flex-shrink-0">
+                <div className="w-80 p-3 border-r bg-muted/20">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -228,8 +227,8 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                   const position = getTaskPosition(task);
                   return (
                     <div key={task.id} className="flex">
-                                            {/* Task info */}
-                      <div className="w-80 p-3 border-r flex-shrink-0">
+                      {/* Task info */}
+                      <div className="w-80 p-3 border-r">
                         <div className="space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium">
@@ -413,9 +412,8 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                 })}
             </div>
           ))}
-                  </div>
         </div>
-      </div>
+      </ScrollArea>
     </div>
   );
 };
