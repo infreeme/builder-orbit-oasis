@@ -50,7 +50,9 @@ export interface Task {
   project: string;
   progress: number;
   status: "planned" | "in-progress" | "delayed" | "completed";
-  dueDate: string;
+  startDate: string;
+  endDate: string;
+  dueDate: string; // Keep for backward compatibility
   trade: string;
   priority: "high" | "medium" | "low";
   assignedTo?: string;
