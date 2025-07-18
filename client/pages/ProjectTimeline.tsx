@@ -41,7 +41,7 @@ export default function ProjectTimeline() {
 
     // If project has defined phases, use them
     if (currentProject.phases && currentProject.phases.length > 0) {
-      return currentProject.phases
+      const phaseGroups = currentProject.phases
         .sort((a, b) => a.order - b.order)
         .map((phase) => {
           // Get tasks assigned to this phase
@@ -71,6 +71,35 @@ export default function ProjectTimeline() {
             tasks: phaseTasks,
           };
         });
+
+      // Add unassigned tasks as a separate group
+      const unassignedTasks = projectTasks
+        .filter((task) => !task.phaseId)
+        .map((task) => {
+          const taskMedia = media.filter((m) => m.taskId === task.id);
+          return {
+            ...task,
+            startDate: new Date(task.startDate || task.dueDate),
+            endDate: new Date(task.endDate || task.dueDate),
+            mediaCount: taskMedia.length,
+            media: taskMedia,
+            progressComments: task.progressComments || [],
+            milestones: [],
+            dependencies: [],
+          };
+        });
+
+      if (unassignedTasks.length > 0) {
+        phaseGroups.push({
+          id: "unassigned",
+          name: "Unassigned Tasks",
+          color: "#6B7280",
+          collapsed: false,
+          tasks: unassignedTasks,
+        });
+      }
+
+      return phaseGroups;
     }
 
     // Fallback: Group tasks by trade if no phases defined
