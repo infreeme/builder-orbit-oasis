@@ -59,6 +59,7 @@ interface GanttChartProps {
   userRole: "admin" | "member" | "client";
   onTaskClick?: (task: GanttTask) => void;
   onPhaseToggle?: (phaseId: string) => void;
+  scrollRef?: React.RefObject<HTMLDivElement>;
 }
 
 export const GanttChart: React.FC<GanttChartProps> = ({
